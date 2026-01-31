@@ -1,320 +1,138 @@
-/* Global Styles with Telegram Theme Support */
+:root {
+  --bg: #0f172a;
+  --card: #111827;
+  --card-light: #1f2933;
+  --primary: #2ea6ff;
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+  --border: rgba(255,255,255,0.08);
+}
+
 * {
-  margin: 0;
-  padding: 0;
   box-sizing: border-box;
 }
 
-:root {
-  /* Default colors (will be overridden by Telegram theme) */
-  --tg-theme-bg-color: #ffffff;
-  --tg-theme-text-color: #000000;
-  --tg-theme-hint-color: #999999;
-  --tg-theme-link-color: #2481cc;
-  --tg-theme-button-color: #2481cc;
-  --tg-theme-button-text-color: #ffffff;
-  --tg-theme-secondary-bg-color: #f4f4f5;
-}
-
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
   margin: 0;
-  padding: 0;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI',
+    Roboto, Helvetica, Arial, sans-serif;
 }
 
-#root {
-  min-height: 100vh;
-  width: 100%;
-}
-
-/* App Container */
 .app-container {
-  max-width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
   padding: 16px;
-  padding-bottom: 24px;
 }
 
-/* Header */
 .app-header {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .app-title {
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--tg-theme-text-color);
+  margin: 0;
 }
 
 .app-subtitle {
   font-size: 14px;
-  color: var(--tg-theme-hint-color);
+  color: var(--muted);
+  margin-top: 4px;
 }
 
-/* Route Selector Component */
+.back-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 15px;
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+/* ROUTE SELECTOR */
+
 .route-selector {
-  background: var(--tg-theme-secondary-bg-color);
-  border-radius: 12px;
+  background: var(--card);
+  border-radius: 16px;
   padding: 16px;
-  margin-bottom: 20px;
+  border: 1px solid var(--border);
 }
 
-.route-selector-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--tg-theme-text-color);
-}
-
-.select-group {
-  margin-bottom: 12px;
-}
-
-.select-group:last-of-type {
-  margin-bottom: 16px;
-}
-
-.select-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 6px;
-  color: var(--tg-theme-text-color);
-}
-
-.select-input {
+.route-selector select {
   width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background: var(--tg-theme-bg-color);
-  color: var(--tg-theme-text-color);
-  outline: none;
-  appearance: none;
-  cursor: pointer;
-  transition: border-color 0.2s;
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  background: var(--card-light);
+  color: var(--text);
+  margin-bottom: 12px;
+  font-size: 15px;
 }
 
-.select-input:focus {
-  border-color: var(--tg-theme-button-color);
-}
-
-.select-input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-/* Show Button */
 .show-button {
   width: 100%;
   padding: 14px;
+  border-radius: 14px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
   font-size: 16px;
   font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  background: var(--tg-theme-button-color);
-  color: var(--tg-theme-button-text-color);
-  cursor: pointer;
-  transition: opacity 0.2s;
 }
 
-.show-button:hover:not(:disabled) {
-  opacity: 0.9;
-}
+/* VEHICLE LIST */
 
-.show-button:active:not(:disabled) {
-  opacity: 0.8;
-}
-
-.show-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* Vehicle List Component */
 .vehicle-list {
-  margin-bottom: 20px;
-}
-
-.vehicle-list-title {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 12px;
-  color: var(--tg-theme-text-color);
-}
-
-.vehicle-grid {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-/* Vehicle Card Component */
 .vehicle-card {
-  background: var(--tg-theme-secondary-bg-color);
-  border-radius: 12px;
-  padding: 16px;
-  transition: transform 0.2s;
-}
-
-.vehicle-card:active {
-  transform: scale(0.98);
-}
-
-.vehicle-card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 12px;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 14px;
+  border: 1px solid var(--border);
 }
 
 .vehicle-name {
   font-size: 16px;
   font-weight: 600;
-  color: var(--tg-theme-text-color);
-  margin-bottom: 4px;
 }
 
 .vehicle-type {
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 500;
-  padding: 4px 10px;
-  border-radius: 12px;
-  background: var(--tg-theme-button-color);
-  color: var(--tg-theme-button-text-color);
-  text-transform: capitalize;
-}
-
-.vehicle-price {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--tg-theme-button-color);
-  white-space: nowrap;
-}
-
-.vehicle-card-body {
-  padding-top: 12px;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 2px;
 }
 
 .driver-info {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.driver-row {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+  margin-top: 10px;
   font-size: 14px;
 }
 
-.driver-label {
-  color: var(--tg-theme-hint-color);
-  min-width: 60px;
-}
-
-.driver-value {
-  color: var(--tg-theme-text-color);
-  font-weight: 500;
-}
-
-.driver-phone-link {
-  color: var(--tg-theme-link-color);
+.driver-phone {
+  margin-top: 6px;
+  display: inline-block;
+  color: var(--primary);
   text-decoration: none;
-  font-weight: 500;
-  cursor: pointer;
 }
 
-.driver-phone-link:hover {
-  text-decoration: underline;
-}
+/* STATES */
 
-/* Loading State */
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.loading-container,
+.error-container {
+  text-align: center;
   padding: 40px 20px;
-}
-
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(0, 0, 0, 0.1);
-  border-top-color: var(--tg-theme-button-color);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
 }
 
 .loading-text {
+  color: var(--muted);
   margin-top: 12px;
-  text-align: center;
-  color: var(--tg-theme-hint-color);
-  font-size: 14px;
-}
-
-/* Empty State */
-.empty-state {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.empty-state-icon {
-  font-size: 48px;
-  margin-bottom: 12px;
-  opacity: 0.5;
-}
-
-.empty-state-title {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--tg-theme-text-color);
-}
-
-.empty-state-text {
-  font-size: 14px;
-  color: var(--tg-theme-hint-color);
-}
-
-/* Error State */
-.error-container {
-  background: #fee;
-  border: 1px solid #fcc;
-  border-radius: 8px;
-  padding: 16px;
-  margin-bottom: 16px;
-}
-
-.error-title {
-  font-size: 14px;
-  font-weight: 600;
-  color: #c00;
-  margin-bottom: 4px;
 }
 
 .error-message {
-  font-size: 13px;
-  color: #a00;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-  .app-container {
-    max-width: 600px;
-    margin: 0 auto;
-  }
+  color: #f87171;
 }
