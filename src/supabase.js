@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 
 // Supabase configuration - these will be set in .env file
 const supabaseUrl = "https://cbvyjilzakreroguwhin.supabase.co";
-const supabaseAnonKey = "sb_publishable_1sJiPBK21PjW06niMPzvBA_KgoIAOVG";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNidnlqaWx6YWtyZXJvZ3V3aGluIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk4Njg1MjgsImV4cCI6MjA4NTQ0NDUyOH0.rpE6XAmTnbQ4K6Y3-GMuXJtYl3dxhUkoCcLOsmsK4Hk";
 
 // Validate environment variables
 if (!supabaseUrl || !supabaseAnonKey) {
