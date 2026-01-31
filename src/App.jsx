@@ -4,58 +4,38 @@ import VehicleList from './components/VehicleList';
 import { fetchRoutes, fetchVehiclesByRoute } from './supabase';
 import './styles.css';
 
-/**
- * Main App Component
- * Manages state and coordinates between route selection and vehicle display
- */
 function App() {
-  // State management
   const [routes, setRoutes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [vehiclesLoading, setVehiclesLoading] = useState(false);
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
+
   const [selectedRoute, setSelectedRoute] = useState({
     fromCity: '',
     toCity: ''
   });
 
-  // Initialize Telegram WebApp
+  // 👉 НОВОЕ: текущий экран
+  const [screen, setScreen] = useState('routes'); // routes | vehicles
+
+  // Telegram init
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
-      
-      // Expand the app to full height
       tg.expand();
-      
-      // Enable closing confirmation
       tg.enableClosingConfirmation();
-      
-      // Set header color to match theme
       tg.setHeaderColor('secondary_bg_color');
-      
-      // Ready signal to Telegram
       tg.ready();
-
-      console.log('Telegram WebApp initialized:', {
-        version: tg.version,
-        platform: tg.platform,
-        colorScheme: tg.colorScheme
-      });
-    } else {
-      console.warn('Telegram WebApp API not available. Running in browser mode.');
     }
   }, []);
 
-  // Load routes on component mount
+  // Load routes
   useEffect(() => {
     loadRoutes();
   }, []);
 
-  /**
-   * Load all available routes from Supabase
-   */
   const loadRoutes = async () => {
     try {
       setLoading(true);
@@ -64,40 +44,35 @@ function App() {
       setRoutes(data);
     } catch (err) {
       setError(err.message || 'Failed to load routes');
-      console.error('Error loading routes:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  /**
-   * Handle route search and load vehicles
-   * @param {string} routeId - The selected route ID
-   * @param {string} fromCity - Departure city
-   * @param {string} toCity - Destination city
-   */
+  // 👉 НОВОЕ ПОВЕДЕНИЕ
   const handleSearch = async (routeId, fromCity, toCity) => {
     try {
       setVehiclesLoading(true);
       setVehiclesError(null);
       setSelectedRoute({ fromCity, toCity });
-      
+
       const data = await fetchVehiclesByRoute(routeId);
       setVehicles(data);
 
-      // Haptic feedback for Telegram
+      // 👉 ПЕРЕХОД НА ВТОРОЙ ЭКРАН
+      setScreen('vehicles');
+
       if (window.Telegram?.WebApp?.HapticFeedback) {
         window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
       }
     } catch (err) {
       setVehiclesError(err.message || 'Failed to load vehicles');
-      console.error('Error loading vehicles:', err);
     } finally {
       setVehiclesLoading(false);
     }
   };
 
-  // Show loading state while routes are being fetched
+  // Загрузка маршрутов
   if (loading) {
     return (
       <div className="app-container">
@@ -111,12 +86,12 @@ function App() {
     );
   }
 
-  // Show error state if routes failed to load
+  // Ошибка загрузки маршрутов
   if (error) {
     return (
       <div className="app-container">
         <div className="error-container">
-          <div className="error-title">Error Loading Application</div>
+          <div className="error-title">Error</div>
           <div className="error-message">{error}</div>
         </div>
         <button className="show-button" onClick={loadRoutes}>
@@ -128,24 +103,48 @@ function App() {
 
   return (
     <div className="app-container">
-      <header className="app-header">
-        <h1 className="app-title">Route Finder</h1>
-        <p className="app-subtitle">Find available vehicles for your journey</p>
-      </header>
 
-      <RouteSelector
-        routes={routes}
-        onSearch={handleSearch}
-        loading={vehiclesLoading}
-      />
+      {/* 🔹 ЭКРАН 1: ВЫБОР МАРШРУТА */}
+      {screen === 'routes' && (
+        <>
+          <header className="app-header">
+            <h1 className="app-title">Route Finder</h1>
+            <p className="app-subtitle">Choose your route</p>
+          </header>
 
-      <VehicleList
-        vehicles={vehicles}
-        loading={vehiclesLoading}
-        error={vehiclesError}
-        fromCity={selectedRoute.fromCity}
-        toCity={selectedRoute.toCity}
-      />
+          <RouteSelector
+            routes={routes}
+            onSearch={handleSearch}
+            loading={vehiclesLoading}
+          />
+        </>
+      )}
+
+      {/* 🔹 ЭКРАН 2: СПИСОК ВОДИТЕЛЕЙ */}
+      {screen === 'vehicles' && (
+        <>
+          <header className="app-header">
+            <button
+              className="back-button"
+              onClick={() => setScreen('routes')}
+            >
+              ← Back
+            </button>
+
+            <h1 className="app-title">
+              {selectedRoute.fromCity} → {selectedRoute.toCity}
+            </h1>
+          </header>
+
+          <VehicleList
+            vehicles={vehicles}
+            loading={vehiclesLoading}
+            error={vehiclesError}
+            fromCity={selectedRoute.fromCity}
+            toCity={selectedRoute.toCity}
+          />
+        </>
+      )}
     </div>
   );
 }
