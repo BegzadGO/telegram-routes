@@ -1,12 +1,17 @@
 :root {
   --bg: #f6f7f9;
   --card: #ffffff;
-  --primary: #2b4eff;
-  --primary-soft: #eef1ff;
+
+  /* 🎯 НОВЫЙ АКЦЕНТНЫЙ ЦВЕТ */
+  --primary: #f59e0b;        /* тёплый янтарный */
+  --primary-soft: #fff4d6;   /* мягкий фон под акценты */
+
   --text: #0f172a;
   --muted: #6b7280;
   --border: #e6e8ee;
+
   --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+
   --radius-lg: 18px;
   --radius-md: 14px;
 }
