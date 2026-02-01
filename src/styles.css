@@ -247,7 +247,7 @@ body {
 }
 
 .brand-title span {
-  color: #b45309;          /* более тёмный оранжевый */
+  color: #111827;          /* более тёмный оранжевый */
   font-weight: 900;
   font-size: 1.05em;       /* чуть больше, чем Taksi */
   margin-left: 4px;
@@ -269,20 +269,20 @@ body {
 
   /* 🟧 КРУПНЫЙ ШАХМАТНЫЙ УЗОР */
   background:
-    repeating-linear-gradient(
-      0deg,
-      rgba(0,0,0,0.25) 0,
-      rgba(0,0,0,0.25) 80px,
-      transparent 80px,
-      transparent 160px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0,0,0,0.25) 0,
-      rgba(0,0,0,0.25) 80px,
-      transparent 80px,
-      transparent 160px
-    );
+  repeating-linear-gradient(
+    0deg,
+    rgba(224, 122, 20, 0.35) 0,
+    rgba(224, 122, 20, 0.35) 80px,
+    transparent 80px,
+    transparent 160px
+  ),
+  repeating-linear-gradient(
+    90deg,
+    rgba(224, 122, 20, 0.35) 0,
+    rgba(224, 122, 20, 0.35) 80px,
+    transparent 80px,
+    transparent 160px
+  );
 
   /* ⬇️ сверху видно, снизу исчезает */
   mask-image: linear-gradient(
