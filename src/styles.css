@@ -172,3 +172,13 @@ body {
   color: #dc2626;
   font-size: 14px;
 }
+
+/* HIDE PRICE AND VEHICLE TYPE */
+
+.vehicle-price {
+  display: none;
+}
+
+.vehicle-type {
+  display: none;
+}
