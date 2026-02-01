@@ -38,11 +38,11 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
 
   return (
     <div className="route-selector">
-      <h2 className="route-selector-title">Select Route</h2>
+      <h2 className="route-selector-title">Jonelisti tanlañ</h2>
       
       <div className="select-group">
         <label className="select-label" htmlFor="from-city">
-          From
+          Qayerden
         </label>
         <select
           id="from-city"
@@ -51,7 +51,7 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
           onChange={(e) => setFromCity(e.target.value)}
           disabled={loading}
         >
-          <option value="">Choose departure city</option>
+          <option value="">Qayerden ketiwñizdi tanlañ</option>
           {fromCities.map((city) => (
             <option key={city} value={city}>
               {city}
@@ -62,7 +62,7 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
 
       <div className="select-group">
         <label className="select-label" htmlFor="to-city">
-          To
+          Qayerge
         </label>
         <select
           id="to-city"
@@ -71,7 +71,7 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
           onChange={(e) => setToCity(e.target.value)}
           disabled={!fromCity || loading}
         >
-          <option value="">Choose destination city</option>
+          <option value="">Qayerge bariwñizdi tanlañ</option>
           {toCities.map((city) => (
             <option key={city} value={city}>
               {city}
@@ -85,7 +85,7 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
         onClick={handleSearch}
         disabled={!canSearch}
       >
-        {loading ? 'Loading...' : 'Show Vehicles'}
+        {loading ? 'Juklenbekte...' : 'Korsetiw'}
       </button>
     </div>
   );
