@@ -258,50 +258,49 @@ body {
   font-size: 14px;
   color: rgba(31, 41, 55, 0.6);
 }
-/* =========================
-   TAXI CHECKER — FADE DOWN
-   ========================= */
 
 .app-container::before {
   content: "";
   position: absolute;
   inset: 0;
 
-  /* 🟧 КРУПНЫЙ ШАХМАТНЫЙ УЗОР */
+  /* ✅ НАСТОЯЩАЯ ШАХМАТНАЯ ДОСКА (2 ЦВЕТА) */
   background:
-  repeating-linear-gradient(
-    0deg,
-    rgba(224, 122, 20, 0.35) 0,
-    rgba(224, 122, 20, 0.35) 80px,
-    transparent 80px,
-    transparent 160px
-  ),
-  repeating-linear-gradient(
-    90deg,
-    rgba(224, 122, 20, 0.35) 0,
-    rgba(224, 122, 20, 0.35) 80px,
-    transparent 80px,
-    transparent 160px
-  );
+    linear-gradient(45deg,
+      rgba(0, 0, 0, 0.22) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0, 0, 0, 0.22) 75%
+    ),
+    linear-gradient(45deg,
+      rgba(0, 0, 0, 0.22) 25%,
+      transparent 25%,
+      transparent 75%,
+      rgba(0, 0, 0, 0.22) 75%
+    );
+
+  background-size: 160px 160px;
+  background-position: 0 0, 80px 80px;
 
   /* ⬇️ сверху видно, снизу исчезает */
   mask-image: linear-gradient(
     180deg,
     black 0%,
-    black 35%,
-    rgba(0,0,0,0.6) 60%,
+    black 40%,
+    rgba(0,0,0,0.5) 65%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     180deg,
     black 0%,
-    black 35%,
-    rgba(0,0,0,0.6) 60%,
+    black 40%,
+    rgba(0,0,0,0.5) 65%,
     transparent 100%
   );
 
   pointer-events: none;
 }
+
 .app-container > * {
   position: relative;
   z-index: 1;
