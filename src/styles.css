@@ -118,7 +118,7 @@ body {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
+  top: 140px;              /* 🔥 КЛЮЧЕВОЕ МЕСТО */
   max-width: 480px;
   margin: 0 auto;
   background: var(--card);
