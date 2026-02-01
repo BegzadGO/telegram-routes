@@ -109,7 +109,7 @@ function App() {
         <>
           <header className="route-header">
   <h1 className="brand-title">
-    Taksi<span>_95</span>
+    Taksi<span>95</span>
   </h1>
   <p className="brand-subtitle">Choose your route</p>
 </header>
