@@ -128,7 +128,7 @@ function App() {
               className="back-button"
               onClick={() => setScreen('routes')}
             >
-              ← Back
+              ←
             </button>
 
             <h1 className="app-title">
