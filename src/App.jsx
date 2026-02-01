@@ -108,8 +108,10 @@ function App() {
       {screen === 'routes' && (
         <>
           <header className="route-header">
-  <h1 className="app-title">Route Finder</h1>
-  <p className="app-subtitle">Choose your route</p>
+  <h1 className="brand-title">
+    Taksi<span>_95</span>
+  </h1>
+  <p className="brand-subtitle">Choose your route</p>
 </header>
 
           <RouteSelector
