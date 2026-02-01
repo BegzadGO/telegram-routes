@@ -40,14 +40,6 @@ body {
 
 /* HEADER */
 
-.app-header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 20px 16px 12px;
-}
-
 .app-title {
   font-size: 26px;
   font-weight: 800;
@@ -61,6 +53,9 @@ body {
 }
 
 .back-button {
+  position: absolute;
+  left: 16px;
+  top: 22px;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -184,4 +179,37 @@ body {
 
 .app-container > header + .route-selector {
   margin-top: 40px;
+}
+
+/* ROUTE SCREEN HEADER */
+
+.route-header {
+  text-align: center;
+  padding: 24px 16px 12px;
+}
+
+.route-header .app-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.route-header .app-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* VEHICLES SCREEN HEADER */
+
+.vehicles-header {
+  position: relative;
+  padding: 20px 16px 12px;
+  text-align: center;
+}
+
+.vehicles-header .app-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
 }
