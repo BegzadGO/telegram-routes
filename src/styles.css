@@ -22,12 +22,20 @@
 
 body {
   margin: 0;
-  background: linear-gradient(
+  background:
+  linear-gradient(
     180deg,
     #e07a14 0%,
     #f2a23a 35%,
     #f7d9a6 70%,
     #fff4e5 100%
+  ),
+  repeating-linear-gradient(
+    45deg,
+    rgba(255,255,255,0.04),
+    rgba(255,255,255,0.04) 12px,
+    transparent 12px,
+    transparent 24px
   );
   color: var(--text);
   font-family: Inter, -apple-system, BlinkMacSystemFont,
@@ -231,4 +239,27 @@ body {
   margin-top: 8px;
   background: #f59e0b;
   border-radius: 2px;
+}
+
+/* =========================
+   BRAND HEADER (ROUTES)
+   ========================= */
+
+.brand-title {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  margin: 0;
+  color: #1f2937;
+}
+
+.brand-title span {
+  color: #e07a14; /* такси-оранжевый акцент */
+  font-weight: 900;
+}
+
+.brand-subtitle {
+  margin-top: 6px;
+  font-size: 14px;
+  color: rgba(31, 41, 55, 0.6);
 }
