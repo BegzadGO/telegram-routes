@@ -107,10 +107,10 @@ function App() {
       {/* 🔹 ЭКРАН 1: ВЫБОР МАРШРУТА */}
       {screen === 'routes' && (
         <>
-          <header className="app-header">
-            <h1 className="app-title">Route Finder</h1>
-            <p className="app-subtitle">Choose your route</p>
-          </header>
+          <header className="route-header">
+  <h1 className="app-title">Route Finder</h1>
+  <p className="app-subtitle">Choose your route</p>
+</header>
 
           <RouteSelector
             routes={routes}
@@ -123,18 +123,18 @@ function App() {
       {/* 🔹 ЭКРАН 2: СПИСОК ВОДИТЕЛЕЙ */}
       {screen === 'vehicles' && (
         <>
-          <header className="app-header">
-            <button
-              className="back-button"
-              onClick={() => setScreen('routes')}
-            >
-              ←
-            </button>
+          <header className="vehicles-header">
+  <button
+    className="back-button"
+    onClick={() => setScreen('routes')}
+  >
+    ←
+  </button>
 
-            <h1 className="app-title">
-              {selectedRoute.fromCity} → {selectedRoute.toCity}
-            </h1>
-          </header>
+  <h1 className="app-title">
+    {selectedRoute.fromCity} → {selectedRoute.toCity}
+  </h1>
+</header>
 
           <VehicleList
             vehicles={vehicles}
