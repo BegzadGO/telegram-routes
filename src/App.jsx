@@ -79,7 +79,7 @@ function App() {
         <div className="loading-container">
           <div>
             <div className="loading-spinner"></div>
-            <div className="loading-text">Loading routes...</div>
+            <div className="loading-text">Juklenbekte...</div>
           </div>
         </div>
       </div>
@@ -95,7 +95,7 @@ function App() {
           <div className="error-message">{error}</div>
         </div>
         <button className="show-button" onClick={loadRoutes}>
-          Retry
+          Qaytadan
         </button>
       </div>
     );
@@ -112,7 +112,7 @@ function App() {
   <span className="title-main">
     Taksi <strong>95</strong>
   </span>
-  <span className="title-sub">Choose your route</span>
+  <span className="title-sub">Jonelisti tañlañ</span>
 </h1>
 </header>
 
