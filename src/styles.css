@@ -35,34 +35,13 @@ body {
 }
 
 /* APP */
-
 .app-container {
   max-width: 460px;
   margin: 0 auto;
   padding: 20px 16px 28px;
   min-height: 100vh;
-
-  background:
-    linear-gradient(
-      180deg,
-      rgba(255,255,255,0.06),
-      rgba(255,255,255,0.02)
-    ),
-    repeating-linear-gradient(
-      0deg,
-      rgba(0,0,0,0.04) 0,
-      rgba(0,0,0,0.04) 8px,
-      transparent 8px,
-      transparent 16px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(0,0,0,0.04) 0,
-      rgba(0,0,0,0.04) 8px,
-      transparent 8px,
-      transparent 16px
-    );
 }
+
 .app-title {
   font-size: 26px;
   font-weight: 800;
@@ -190,8 +169,10 @@ body {
 /* ROUTE SCREEN HEADER */
 
 .route-header {
+  position: relative;
   text-align: center;
-  padding: 8px 16px 12px;
+  padding: 32px 16px 36px;
+  overflow: hidden;
 }
 
 .route-header .app-title {
@@ -276,4 +257,35 @@ body {
   margin-top: 6px;
   font-size: 14px;
   color: rgba(31, 41, 55, 0.6);
+}
+
+/* =========================
+   TAXI CHECKER (TOP ONLY)
+   ========================= */
+
+.route-header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(0,0,0,0.18) 0,
+      rgba(0,0,0,0.18) 40px,
+      transparent 40px,
+      transparent 80px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.18) 0,
+      rgba(0,0,0,0.18) 40px,
+      transparent 40px,
+      transparent 80px
+    );
+  opacity: 0.12;
+  pointer-events: none;
+}
+.route-header > * {
+  position: relative;
+  z-index: 1;
 }
