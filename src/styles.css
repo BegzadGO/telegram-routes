@@ -108,124 +108,50 @@ body {
 .vehicle-list {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
+
+/* VEHICLE CARD */
 
 .vehicle-card {
   background: var(--card);
-  border-radius: var(--radius-lg);
-  padding: 16px;
+  border-radius: 16px;
+  padding: 14px 16px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
 }
 
-.vehicle-name {
-  font-size: 16px;
-  font-weight: 600;
-}
+/* Top row: vehicle name / driver name */
 
-.vehicle-type {
-  font-size: 13px;
-  color: var(--muted);
-  margin-top: 4px;
-}
-
-.vehicle-price {
-  margin-top: 8px;
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-/* DRIVER */
-
-.driver-info {
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border);
-  font-size: 14px;
-}
-
-.driver-phone {
-  display: inline-block;
-  margin-top: 6px;
-  color: var(--primary);
-  font-weight: 500;
-  text-decoration: none;
-}
-
-/* STATES */
-
-.loading-container,
-.error-container {
-  text-align: center;
-  padding: 40px 20px;
-}
-
-.loading-text {
-  margin-top: 12px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.error-message {
-  color: #dc2626;
-  font-size: 14px;
-}
-
-/* HIDE PRICE AND VEHICLE TYPE */
-
-.vehicle-price {
-  display: none;
-}
-
-.vehicle-type {
-  display: none;
-}
-/* --- TAXI STYLE VEHICLE CARD --- */
-
-/* Верхняя строка: машина слева, водитель справа */
-.vehicle-card {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.vehicle-card > div:first-child {
+.vehicle-card-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* Название машины — жирнее, но не крупнее */
 .vehicle-name {
-  font-weight: 700;
   font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
 }
 
-/* Имя водителя — справа, спокойнее */
-.driver-info {
-  margin: 0;
+.driver-name {
   font-size: 14px;
-  color: #6b7280;
+  color: var(--muted);
   text-align: right;
 }
 
-/* Телефон — по центру, как кнопка действия */
+/* Phone button */
+
 .driver-phone {
   display: block;
+  margin-top: 10px;
+  padding: 12px 0;
   text-align: center;
-  margin-top: 6px;
-  padding: 10px 0;
-  border-radius: 12px;
-  background: #f9fafb;
+  border-radius: 14px;
+  background: var(--primary-soft);
+  color: var(--text);
+  font-size: 15px;
   font-weight: 600;
-  color: #111827;
   text-decoration: none;
-}
-
-/* Убираем цену и тип */
-.vehicle-price,
-.vehicle-type {
-  display: none;
 }
