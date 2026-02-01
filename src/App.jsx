@@ -36,18 +36,45 @@ function App() {
     loadRoutes();
   }, []);
 
-  const loadRoutes = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const data = await fetchRoutes();
-      setRoutes(data);
-    } catch (err) {
-      setError(err.message || 'Failed to load routes');
-    } finally {
-      setLoading(false);
+  const ROUTES_CACHE_KEY = 'routes_cache_v1';
+const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 6; // 6 часов
+
+const loadRoutes = async () => {
+  try {
+    setLoading(true);
+    setError(null);
+
+    // 1️⃣ Проверяем кеш
+    const cached = localStorage.getItem(ROUTES_CACHE_KEY);
+    if (cached) {
+      const parsed = JSON.parse(cached);
+
+      // если кеш ещё свежий
+      if (Date.now() - parsed.timestamp < ROUTES_CACHE_TTL) {
+        setRoutes(parsed.data);
+        setLoading(false);
+        return;
+      }
     }
-  };
+
+    // 2️⃣ Если кеша нет или он старый — идём в Supabase
+    const data = await fetchRoutes();
+    setRoutes(data);
+
+    // 3️⃣ Сохраняем в кеш
+    localStorage.setItem(
+      ROUTES_CACHE_KEY,
+      JSON.stringify({
+        timestamp: Date.now(),
+        data,
+      })
+    );
+  } catch (err) {
+    setError(err.message || 'Failed to load routes');
+  } finally {
+    setLoading(false);
+  }
+};
 
   // 👉 НОВОЕ ПОВЕДЕНИЕ
   const handleSearch = async (routeId, fromCity, toCity) => {
