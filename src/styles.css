@@ -34,11 +34,8 @@ body {
   max-width: 460px;
   margin: 0 auto;
   padding: 20px 16px 28px;
+  min-height: 100vh;
 }
-
-/* HEADER */
-
-/* HEADER */
 
 .app-title {
   font-size: 26px;
@@ -69,10 +66,6 @@ body {
   box-shadow: 0 4px 10px rgba(0,0,0,0.12);
   cursor: pointer;
 }
-
-/* ROUTE SELECTOR */
-
-/* ROUTE SELECTOR – CENTERED */
 
 .route-selector {
   max-width: 360px;
@@ -171,11 +164,6 @@ body {
   text-decoration: none;
 }
 
-/* CENTER START SCREEN */
-
-.app-container {
-  min-height: 100vh;
-}
 
 .app-container > header + .route-selector {
   margin-top: 40px;
