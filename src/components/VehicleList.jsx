@@ -48,7 +48,7 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
   return (
     <div className="vehicle-list">
       <h2 className="vehicle-list-title">
-        Available Vehicles ({vehicles.length})
+        Choose a vehicle ({vehicles.length})
       </h2>
       <div className="vehicle-grid">
         {vehicles.map((vehicle) => (
