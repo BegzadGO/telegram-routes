@@ -43,15 +43,26 @@ body {
   min-height: 100vh;
 
   background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.06),
+      rgba(255,255,255,0.02)
+    ),
     repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0.08),
-      rgba(255,255,255,0.08) 10px,
-      transparent 10px,
-      transparent 20px
+      0deg,
+      rgba(0,0,0,0.04) 0,
+      rgba(0,0,0,0.04) 8px,
+      transparent 8px,
+      transparent 16px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(0,0,0,0.04) 0,
+      rgba(0,0,0,0.04) 8px,
+      transparent 8px,
+      transparent 16px
     );
 }
-
 .app-title {
   font-size: 26px;
   font-weight: 800;
