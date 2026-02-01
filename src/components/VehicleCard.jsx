@@ -14,13 +14,21 @@ const VehicleCard = ({ vehicle }) => {
 
       {/* Телефон по центру */}
       {driver_phone && (
-        <a
-          href={`tel:${driver_phone}`}
-          className="driver-phone"
-        >
-          {driver_phone}
-        </a>
-      )}
+  <button
+    className="call-button"
+    onClick={() => {
+      if (window.Telegram?.WebApp?.HapticFeedback) {
+        window.Telegram.WebApp.HapticFeedback.impactOccurred('light');
+      }
+
+      window.Telegram.WebApp.openTelegramLink(
+        `tel:${driver_phone}`
+      );
+    }}
+  >
+    📞 Позвонить
+  </button>
+)}
 
     </div>
   );
