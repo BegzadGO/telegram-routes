@@ -92,7 +92,7 @@ body {
   position: fixed;
   left: 0;
   right: 0;
-  top: 110px;              /* 🔥 КЛЮЧЕВОЕ МЕСТО */
+  top: 140px;              /* 🔥 КЛЮЧЕВОЕ МЕСТО */
   max-width: 480px;
   margin: 0 auto;
   background: var(--card);
@@ -174,7 +174,7 @@ body {
 
 .vehicles-header {
   position: relative;
-  padding: 64px 16px 12px; /* ⬅️ место под кнопку */
+  padding: 44px 16px 12px; /* ⬅️ место под кнопку */
   text-align: center;
 }
 
