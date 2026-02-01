@@ -94,16 +94,16 @@ body {
 /* VEHICLE LIST */
 
 .vehicle-list {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 96px;              /* 🔥 КЛЮЧЕВОЕ МЕСТО */
-  max-width: 480px;
-  margin: 0 auto;
+  position: relative;
+
+  margin: 12px auto 0;   /* ⬅️ СРАЗУ ПОД МАРШРУТОМ */
+  max-width: 360px;
+
   background: var(--card);
-  border-radius: 24px 24px 0 0;
+  border-radius: 20px;
   padding: 16px;
-  box-shadow: 0 -10px 30px rgba(0,0,0,0.15);
+
+  box-shadow: var(--shadow);
 }
 
 /* VEHICLE CARD */
