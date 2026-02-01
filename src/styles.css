@@ -234,16 +234,30 @@ body {
    ========================= */
 
 .brand-title {
-  display: inline-block;
-  padding: 10px 18px;
-  border-radius: 16px;
+  display: inline-flex;
+  flex-direction: column;
+  gap: 4px;
 
-  background: rgba(224, 122, 20, 0.9); /* тёмно-оранжевый */
-  color: #111827;
+  padding: 14px 22px;
+  border-radius: 20px;
 
+  background-color: #e07a14;
+  border: 2px solid #000000;
+
+  text-align: center;
+}
+
+.brand-title .title-main {
   font-size: 34px;
   font-weight: 900;
-  letter-spacing: -0.5px;
+  color: #111827;
+}
+
+.brand-title .title-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  opacity: 0.8;
 }
 
 .brand-title span {
@@ -251,19 +265,6 @@ body {
   font-weight: 900;
   font-size: 1.05em;       /* чуть больше, чем Taksi */
   margin-left: 4px;
-}
-
-.brand-subtitle {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 6px 14px;
-  border-radius: 12px;
-
-  background-color: #e07a14;   /* ⬅️ ВАЖНО: фон ВНУТРИ рамки */
-  border: 1px solid #000000;
-
-  font-size: 14px;
-  color: #111827;
 }
 
 /* =========================
