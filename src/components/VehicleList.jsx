@@ -12,7 +12,7 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
       <div className="loading-container">
         <div>
           <div className="loading-spinner"></div>
-          <div className="loading-text">Loading vehicles...</div>
+          <div className="loading-text">Juklenbekte...</div>
         </div>
       </div>
     );
@@ -33,7 +33,7 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
     return (
       <div className="empty-state">
         <div className="empty-state-icon">🚗</div>
-        <div className="empty-state-title">No Vehicles Available</div>
+        <div className="empty-state-title">Xazirshe mashinlar joq</div>
         <div className="empty-state-text">
           {fromCity && toCity 
             ? `No vehicles found for route ${fromCity} → ${toCity}`
@@ -48,7 +48,7 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
   return (
     <div className="vehicle-list">
       <h2 className="vehicle-list-title">
-        Choose a vehicle ({vehicles.length})
+        Taksistke qoñirow etiñ ({vehicles.length})
       </h2>
       <div className="vehicle-grid">
         {vehicles.map((vehicle) => (
