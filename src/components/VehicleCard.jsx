@@ -1,42 +1,27 @@
 import React from 'react';
 
-/**
- * VehicleCard Component
- * Displays individual vehicle information with driver details
- */
 const VehicleCard = ({ vehicle }) => {
-  const { vehicle_name, driver_name, driver_phone, type, price } = vehicle;
+  const { vehicle_name, driver_name, driver_phone } = vehicle;
 
   return (
     <div className="vehicle-card">
-      <div className="vehicle-card-header">
-        <div>
-          <div className="vehicle-name">{vehicle_name}</div>
-          <span className="vehicle-type">{type}</span>
-        </div>
-        {price && <div className="vehicle-price">${price}</div>}
+
+      {/* Верхняя строка */}
+      <div className="vehicle-card-top">
+        <div className="vehicle-name">{vehicle_name}</div>
+        <div className="driver-name">{driver_name}</div>
       </div>
 
-      <div className="vehicle-card-body">
-        <div className="driver-info">
-          <div className="driver-row">
-            <span className="driver-label">Driver:</span>
-            <span className="driver-value">{driver_name}</span>
-          </div>
-          
-          {driver_phone && (
-            <div className="driver-row">
-              <span className="driver-label">Phone:</span>
-              <a 
-                href={`tel:${driver_phone}`} 
-                className="driver-phone-link"
-              >
-                {driver_phone}
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
+      {/* Телефон по центру */}
+      {driver_phone && (
+        <a
+          href={`tel:${driver_phone}`}
+          className="driver-phone"
+        >
+          {driver_phone}
+        </a>
+      )}
+
     </div>
   );
 };
