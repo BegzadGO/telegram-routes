@@ -254,8 +254,10 @@ body {
 }
 
 .brand-title span {
-  color: #e07a14; /* такси-оранжевый акцент */
+  color: #b45309;          /* более тёмный оранжевый */
   font-weight: 900;
+  font-size: 1.05em;       /* чуть больше, чем Taksi */
+  margin-left: 4px;
 }
 
 .brand-subtitle {
