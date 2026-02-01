@@ -12,9 +12,7 @@ const VehicleCard = ({ vehicle }) => {
         <div className="driver-name">{driver_name}</div>
       </div>
 
-      {/* Телефон по центру */}
       {driver_phone && (
-  {driver_phone && (
   <a
     href={`tel:${driver_phone}`}
     className="call-button"
