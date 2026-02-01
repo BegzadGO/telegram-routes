@@ -331,3 +331,52 @@ body {
 
   color: #111827;
 }
+
+.call-button {
+  display: block;
+  margin: 12px auto 0;   /* центр по горизонтали */
+  padding: 10px 16px;
+
+  background-color: #2ea6ff;
+  color: white;
+  text-decoration: none;
+
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+
+  text-align: center;
+  width: fit-content;
+}
+
+.call-button:active {
+  transform: scale(0.97);
+}
+
+.empty-state {
+  margin: 40px 16px;
+  padding: 24px;
+
+  background: white;
+  border-radius: 16px;
+
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.empty-state-text {
+  font-size: 14px;
+  color: #555;
+}
