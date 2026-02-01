@@ -19,19 +19,21 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
     setToCity('');
   }, [fromCity]);
 
-  // Handle search button click
   const handleSearch = () => {
-    if (!fromCity || !toCity) return;
-    
-    // Find the matching route
-    const route = routes.find(
-      r => r.from_city === fromCity && r.to_city === toCity
-    );
-    
-    if (route) {
-      onSearch(route.id, fromCity, toCity);
-    }
-  };
+  // 🛑 ЗАЩИТА ОТ ДАБЛ-КЛИКА
+  if (loading) return;
+
+  // 🛑 если маршрут не выбран
+  if (!fromCity || !toCity) return;
+
+  const route = routes.find(
+    r => r.from_city === fromCity && r.to_city === toCity
+  );
+
+  if (route) {
+    onSearch(route.id, fromCity, toCity);
+  }
+};
 
   // Check if search button should be enabled
   const canSearch = fromCity && toCity && !loading;
