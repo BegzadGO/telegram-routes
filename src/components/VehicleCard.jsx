@@ -27,7 +27,6 @@ const VehicleCard = ({ vehicle }) => {
     📞 Позвонить
   </a>
 )}
-)}
 
     </div>
   );
