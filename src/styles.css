@@ -69,12 +69,15 @@ body {
 
 /* ROUTE SELECTOR */
 
+/* ROUTE SELECTOR – CENTERED */
+
 .route-selector {
+  max-width: 360px;
+  margin: 0 auto;
   background: var(--card);
-  border-radius: var(--radius-lg);
+  border-radius: 18px;
   padding: 18px;
   box-shadow: var(--shadow);
-  border: 1px solid var(--border);
 }
 
 .route-selector select {
@@ -156,4 +159,14 @@ body {
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
+}
+
+/* CENTER START SCREEN */
+
+.app-container {
+  min-height: 100vh;
+}
+
+.app-container > header + .route-selector {
+  margin-top: 40px;
 }
