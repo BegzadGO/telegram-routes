@@ -95,8 +95,7 @@ body {
 
 .vehicle-list {
   position: relative;
-
-  margin: 12px auto 0;   /* ⬅️ СРАЗУ ПОД МАРШРУТОМ */
+  margin: 8px auto 0; /* ближе к маршруту */
   max-width: 360px;
 
   background: var(--card);
@@ -186,7 +185,7 @@ body {
 
 .vehicles-header {
   position: relative;
-  padding: 44px 16px 12px; /* ⬅️ место под кнопку */
+  padding: 28px 16px 12px; /* меньше пустоты сверху */
   text-align: center;
 }
 
@@ -236,10 +235,11 @@ body {
 .brand-title {
   display: inline-flex;
   flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 6px;
 
-  padding: 14px 22px;
-  border-radius: 20px;
+  padding: 18px 26px;
+  border-radius: 22px;
 
   background-color: #e07a14;
   border: 2px solid #000000;
