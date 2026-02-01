@@ -182,3 +182,50 @@ body {
 .vehicle-type {
   display: none;
 }
+/* --- TAXI STYLE VEHICLE CARD --- */
+
+/* Верхняя строка: машина слева, водитель справа */
+.vehicle-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.vehicle-card > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Название машины — жирнее, но не крупнее */
+.vehicle-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+/* Имя водителя — справа, спокойнее */
+.driver-info {
+  margin: 0;
+  font-size: 14px;
+  color: #6b7280;
+  text-align: right;
+}
+
+/* Телефон — по центру, как кнопка действия */
+.driver-phone {
+  display: block;
+  text-align: center;
+  margin-top: 6px;
+  padding: 10px 0;
+  border-radius: 12px;
+  background: #f9fafb;
+  font-weight: 600;
+  color: #111827;
+  text-decoration: none;
+}
+
+/* Убираем цену и тип */
+.vehicle-price,
+.vehicle-type {
+  display: none;
+}
