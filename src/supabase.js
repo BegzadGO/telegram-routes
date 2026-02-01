@@ -28,8 +28,7 @@ export const fetchRoutes = async () => {
   try {
     const { data, error } = await supabase
       .from('routes')
-      .select('id, from_city, to_city')
-      .order('from_city', { ascending: true });
+      .select('id, from_city, to_city');
 
     if (error) throw error;
     return data || [];
@@ -51,15 +50,12 @@ export const fetchVehiclesByRoute = async (routeId) => {
       .select(`
         id,
         vehicle_name,
-        type,
-        price,
         driver:driver_id (
           name,
           phone
         )
       `)
-      .eq('route_id', routeId)
-      .order('vehicle_name', { ascending: true });
+      .eq('route_id', routeId);
 
     if (error) throw error;
 
@@ -67,8 +63,6 @@ export const fetchVehiclesByRoute = async (routeId) => {
     return (data || []).map(vehicle => ({
       id: vehicle.id,
       vehicle_name: vehicle.vehicle_name,
-      type: vehicle.type,
-      price: vehicle.price,
       driver_name: vehicle.driver?.name || 'N/A',
       driver_phone: vehicle.driver?.phone || null,
     }));
