@@ -59,14 +59,33 @@ const loadRoutes = async () => {
 
     // 2️⃣ Если кеша нет или он старый — идём в Supabase
     const data = await fetchRoutes();
-    setRoutes(data);
+    // 🔁 нормализуем маршруты: добавляем обратные
+const normalizedRoutes = [];
+
+data.forEach(route => {
+  // прямой маршрут
+  normalizedRoutes.push(route);
+
+  // обратный маршрут
+  if (route.from_city !== route.to_city) {
+    normalizedRoutes.push({
+      id: `${route.id}_reverse`,
+      from_city: route.to_city,
+      to_city: route.from_city,
+      original_route_id: route.id,
+      isReverse: true,
+    });
+  }
+});
+
+setRoutes(normalizedRoutes);
 
     // 3️⃣ Сохраняем в кеш
     localStorage.setItem(
       ROUTES_CACHE_KEY,
       JSON.stringify({
         timestamp: Date.now(),
-        data,
+        data: normalizedRoutes,
       })
     );
   } catch (err) {
