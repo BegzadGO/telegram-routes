@@ -36,7 +36,7 @@ function App() {
     loadRoutes();
   }, []);
 
-  const ROUTES_CACHE_KEY = 'routes_cache_v1';
+  const ROUTES_CACHE_KEY = 'routes_cache_v2';
 const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 6; // 6 часов
 
 const loadRoutes = async () => {
