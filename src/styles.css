@@ -131,8 +131,8 @@ body {
 
 .driver-name {
   font-size: 14px;
-  color: var(--muted);
-  text-align: right;
+  font-weight: 600;
+  color: var(--text);
 }
 
 /* Phone button */
