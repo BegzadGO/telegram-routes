@@ -114,6 +114,7 @@ body {
   padding: 14px 16px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
+  position: relative;
 }
 
 /* Top row: vehicle name / driver name */
