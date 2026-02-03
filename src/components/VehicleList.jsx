@@ -5,7 +5,16 @@ import VehicleCard from './VehicleCard';
  * VehicleList Component
  * Displays list of vehicles or empty/loading states
  */
-const VehicleList = ({ vehicles, loading, error, fromCity, toCity, onRefresh }) => {
+const VehicleList = ({
+  vehicles,
+  loading,
+  error,
+  fromCity,
+  toCity,
+  onRefresh,
+  favorites = [],
+  onToggleFavorite,
+}) => {
   // Loading state
   if (loading) {
     return (
@@ -56,9 +65,14 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity, onRefresh }) 
         Taksistke qoñirow etiñ ({vehicles.length})
       </h2>
       <div className="vehicle-grid">
-        {vehicles.map((vehicle) => (
-          <VehicleCard key={vehicle.id} vehicle={vehicle} />
-        ))}
+        {vehicles.map(vehicle => (
+  <VehicleCard
+    key={vehicle.id}
+    vehicle={vehicle}
+    isFavorite={favorites.some(f => f.id === vehicle.id)}
+    onToggleFavorite={onToggleFavorite}
+  />
+))}
       </div>
     </div>
   );
