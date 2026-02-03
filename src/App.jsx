@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import RouteSelector from './components/RouteSelector';
 import VehicleList from './components/VehicleList';
-import { fetchRoutes, fetchVehiclesByRoute } from './supabase';
+import { fetchRoutes, fetchVehiclesByRoute, fetchRoutePlaces } from './supabase';
 import './styles.css';
 
 function App() {
   const [routes, setRoutes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [routePlaces, setRoutePlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [vehiclesLoading, setVehiclesLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -136,6 +137,10 @@ setRoutes(normalizedRoutes);
 const shuffled = shuffleArray(data);
 setVehicles(shuffled);
 
+// 👉 ЗАГРУЖАЕМ СТОЯНКИ / ИНФОРМАЦИЮ
+const places = await fetchRoutePlaces(routeId);
+setRoutePlaces(places);
+
       // 👉 ПЕРЕХОД НА ВТОРОЙ ЭКРАН
       setScreen('vehicles');
 
@@ -223,6 +228,7 @@ setVehicles(shuffled);
 
           <VehicleList
   vehicles={vehicles}
+  routePlaces={routePlaces}
   loading={vehiclesLoading}
   error={vehiclesError}
   fromCity={selectedRoute.fromCity}
