@@ -103,6 +103,9 @@ setRoutes(normalizedRoutes);
   }
   return result;
 };
+ const reshuffleVehicles = () => {
+  setVehicles(prev => shuffleArray(prev));
+};
   
   // 👉 НОВОЕ ПОВЕДЕНИЕ
   const handleSearch = async (routeId, fromCity, toCity) => {
