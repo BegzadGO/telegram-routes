@@ -7,6 +7,7 @@ import VehicleCard from './VehicleCard';
  */
 const VehicleList = ({
   vehicles,
+  routePlaces = [],
   loading,
   error,
   fromCity,
@@ -56,6 +57,29 @@ const VehicleList = ({
   // Display vehicles
   return (
     <div className="vehicle-list">
+      {routePlaces.length > 0 && (
+  <div className="route-places">
+    <h3>📍 Информация по маршруту</h3>
+
+    {routePlaces.map(place => (
+      <div key={place.id} className="route-place-card">
+        {place.title && <strong>{place.title}</strong>}
+        {place.note && <p>{place.note}</p>}
+        {place.address && <p>🏠 {place.address}</p>}
+
+        {place.lat && place.lng && (
+          <a
+            href={`https://maps.google.com/?q=${place.lat},${place.lng}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            📍 Открыть на карте
+          </a>
+        )}
+      </div>
+    ))}
+  </div>
+)}
       {onRefresh && (
   <div className="list-actions">
     <button className="refresh-button" onClick={onRefresh}>
