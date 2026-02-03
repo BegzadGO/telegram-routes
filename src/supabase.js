@@ -71,3 +71,22 @@ export const fetchVehiclesByRoute = async (routeId) => {
     throw error;
   }
 };
+
+/**
+ * Fetch route places (parking, notes, locations) for a route
+ * @param {string} routeId
+ */
+export const fetchRoutePlaces = async (routeId) => {
+  try {
+    const { data, error } = await supabase
+      .from('route_places')
+      .select('*')
+      .eq('route_id', routeId);
+
+    if (error) throw error;
+    return data || [];
+  } catch (error) {
+    console.error('Error fetching route places:', error);
+    throw error;
+  }
+};
