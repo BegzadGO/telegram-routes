@@ -38,22 +38,6 @@ const VehicleList = ({
     );
   }
 
-  // Empty state - no vehicles found
-  if (vehicles.length === 0) {
-    return (
-      <div className="empty-state">
-        <div className="empty-state-icon">🚗</div>
-        <div className="empty-state-title">Xazirshe mashinlar joq</div>
-        <div className="empty-state-text">
-          {fromCity && toCity 
-            ? `No vehicles found for route ${fromCity} → ${toCity}`
-            : 'Select a route to view available vehicles'
-          }
-        </div>
-      </div>
-    );
-  }
-
   // Display vehicles
   return (
     <div className="vehicle-list">
@@ -80,6 +64,18 @@ const VehicleList = ({
     ))}
   </div>
 )}
+      {vehicles.length === 0 && (
+  <div className="empty-state">
+    <div className="empty-state-icon">🚗</div>
+    <div className="empty-state-title">Xazirshe mashinlar joq</div>
+    <div className="empty-state-text">
+      {fromCity && toCity 
+        ? `No vehicles found for route ${fromCity} → ${toCity}`
+        : 'Select a route to view available vehicles'
+      }
+    </div>
+  </div>
+)}
       {onRefresh && (
   <div className="list-actions">
     <button className="refresh-button" onClick={onRefresh}>
@@ -87,19 +83,23 @@ const VehicleList = ({
     </button>
   </div>
 )}
-      <h2 className="vehicle-list-title">
-        Taksistke qoñirow etiñ ({vehicles.length})
-      </h2>
-      <div className="vehicle-grid">
-        {vehicles.map(vehicle => (
-  <VehicleCard
-    key={vehicle.id}
-    vehicle={vehicle}
-    isFavorite={favorites.some(f => f.id === vehicle.id)}
-    onToggleFavorite={onToggleFavorite}
-  />
-))}
-      </div>
+      {vehicles.length > 0 && (
+  <>
+    <h2 className="vehicle-list-title">
+      Taksistke qoñirow etiñ ({vehicles.length})
+    </h2>
+    <div className="vehicle-grid">
+      {vehicles.map(vehicle => (
+        <VehicleCard
+          key={vehicle.id}
+          vehicle={vehicle}
+          isFavorite={favorites.some(f => f.id === vehicle.id)}
+          onToggleFavorite={onToggleFavorite}
+        />
+      ))}
+    </div>
+  </>
+)}
     </div>
   );
 };
