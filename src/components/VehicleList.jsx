@@ -56,11 +56,13 @@ const VehicleList = ({
   // Display vehicles
   return (
     <div className="vehicle-list">
-      <div className="list-actions">
-  <button className="refresh-button" onClick={onRefresh}>
-    🔄 Обновить список
-  </button>
-</div>
+      {onRefresh && (
+  <div className="list-actions">
+    <button className="refresh-button" onClick={onRefresh}>
+      🔄 Обновить список
+    </button>
+  </div>
+)}
       <h2 className="vehicle-list-title">
         Taksistke qoñirow etiñ ({vehicles.length})
       </h2>
