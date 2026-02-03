@@ -204,12 +204,13 @@ setVehicles(shuffled);
 </header>
 
           <VehicleList
-            vehicles={vehicles}
-            loading={vehiclesLoading}
-            error={vehiclesError}
-            fromCity={selectedRoute.fromCity}
-            toCity={selectedRoute.toCity}
-          />
+  vehicles={vehicles}
+  loading={vehiclesLoading}
+  error={vehiclesError}
+  fromCity={selectedRoute.fromCity}
+  toCity={selectedRoute.toCity}
+  onRefresh={reshuffleVehicles}
+/>
         </>
       )}
     </div>
