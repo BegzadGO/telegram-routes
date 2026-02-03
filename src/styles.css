@@ -434,3 +434,18 @@ body {
   0%, 80%, 100% { transform: scale(0); }
   40% { transform: scale(1); }
 }
+
+.list-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
