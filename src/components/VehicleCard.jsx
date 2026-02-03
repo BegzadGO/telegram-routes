@@ -10,6 +10,12 @@ const VehicleCard = ({ vehicle, isFavorite, onToggleFavorite }) => {
 
   return (
     <div className="vehicle-card">
+      <button
+  className="favorite-button"
+  onClick={() => onToggleFavorite(vehicle)}
+>
+  {isFavorite ? '❤️' : '🤍'}
+</button>
 
       {/* Верхняя строка */}
       <div className="vehicle-card-top">
