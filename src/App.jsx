@@ -19,7 +19,25 @@ function App() {
 
   // 👉 НОВОЕ: текущий экран
   const [screen, setScreen] = useState('routes'); // routes | vehicles | favorites
+  const [favorites, setFavorites] = useState(() => {
+  return JSON.parse(localStorage.getItem('favorites') || '[]');
+});
 
+  const toggleFavorite = (vehicle) => {
+  setFavorites(prev => {
+    const exists = prev.find(v => v.id === vehicle.id);
+
+    let updated;
+    if (exists) {
+      updated = prev.filter(v => v.id !== vehicle.id);
+    } else {
+      updated = [...prev, vehicle];
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(updated));
+    return updated;
+  });
+};
   // Telegram init
   useEffect(() => {
     if (window.Telegram?.WebApp) {
@@ -210,6 +228,8 @@ setVehicles(shuffled);
   fromCity={selectedRoute.fromCity}
   toCity={selectedRoute.toCity}
   onRefresh={reshuffleVehicles}
+  favorites={favorites}
+  onToggleFavorite={toggleFavorite}
 />
         </>
       )}
@@ -219,13 +239,16 @@ setVehicles(shuffled);
       <h1 className="app-title">Избранное</h1>
     </header>
 
-    <div className="empty-state">
-      <div className="empty-state-icon">❤️</div>
-      <div className="empty-state-title">Избранные водители</div>
-      <div className="empty-state-text">
-        Здесь будут ваши сохранённые водители
-      </div>
-    </div>
+    <VehicleList
+      vehicles={favorites}
+      loading={false}
+      error={null}
+      fromCity="Избранное"
+      toCity=""
+      onRefresh={null}
+      favorites={favorites}
+      onToggleFavorite={toggleFavorite}
+    />
   </>
 )}
       <div className="bottom-nav">
