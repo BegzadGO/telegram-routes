@@ -5,7 +5,7 @@ import VehicleCard from './VehicleCard';
  * VehicleList Component
  * Displays list of vehicles or empty/loading states
  */
-const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
+const VehicleList = ({ vehicles, loading, error, fromCity, toCity, onRefresh }) => {
   // Loading state
   if (loading) {
     return (
@@ -47,6 +47,11 @@ const VehicleList = ({ vehicles, loading, error, fromCity, toCity }) => {
   // Display vehicles
   return (
     <div className="vehicle-list">
+      <div className="list-actions">
+  <button className="refresh-button" onClick={onRefresh}>
+    🔄 Обновить список
+  </button>
+</div>
       <h2 className="vehicle-list-title">
         Taksistke qoñirow etiñ ({vehicles.length})
       </h2>
