@@ -18,7 +18,7 @@ function App() {
   });
 
   // 👉 НОВОЕ: текущий экран
-  const [screen, setScreen] = useState('routes'); // routes | vehicles
+  const [screen, setScreen] = useState('routes'); // routes | vehicles | favorites
 
   // Telegram init
   useEffect(() => {
@@ -213,6 +213,36 @@ setVehicles(shuffled);
 />
         </>
       )}
+      {screen === 'favorites' && (
+  <>
+    <header className="vehicles-header">
+      <h1 className="app-title">Избранное</h1>
+    </header>
+
+    <div className="empty-state">
+      <div className="empty-state-icon">❤️</div>
+      <div className="empty-state-title">Избранные водители</div>
+      <div className="empty-state-text">
+        Здесь будут ваши сохранённые водители
+      </div>
+    </div>
+  </>
+)}
+      <div className="bottom-nav">
+  <button
+    className={screen === 'routes' ? 'active' : ''}
+    onClick={() => setScreen('routes')}
+  >
+    🧭 Маршруты
+  </button>
+
+  <button
+    className={screen === 'favorites' ? 'active' : ''}
+    onClick={() => setScreen('favorites')}
+  >
+    ❤️ Избранное
+  </button>
+</div>
     </div>
   );
 }
