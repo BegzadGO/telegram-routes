@@ -27,10 +27,13 @@ const RouteSelector = ({ routes, onSearch, loading }) => {
   if (!fromCity || !toCity) return;
 
   const route = routes.find(
-  r =>
-    (r.from_city === fromCity && r.to_city === toCity) ||
-    (r.from_city === toCity && r.to_city === fromCity)
+  r => r.from_city === fromCity && r.to_city === toCity
 );
+
+if (route) {
+  const actualRouteId = route.isReverse ? route.original_route_id : route.id;
+  onSearch(actualRouteId, fromCity, toCity);
+}
 
   if (route) {
     onSearch(route.id, fromCity, toCity);
