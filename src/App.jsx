@@ -138,8 +138,13 @@ const shuffled = shuffleArray(data);
 setVehicles(shuffled);
 
 // 👉 ЗАГРУЖАЕМ СТОЯНКИ / ИНФОРМАЦИЮ
-const places = await fetchRoutePlaces(routeId);
-setRoutePlaces(places);
+try {
+  const places = await fetchRoutePlaces(routeId);
+  setRoutePlaces(places || []);
+} catch (placesErr) {
+  console.error('Failed to load route places:', placesErr);
+  setRoutePlaces([]);
+}
 
       // 👉 ПЕРЕХОД НА ВТОРОЙ ЭКРАН
       setScreen('vehicles');
