@@ -1,20 +1,25 @@
 import { useState, useEffect } from 'react';
 import RouteSelector from './components/RouteSelector';
 import VehicleList from './components/VehicleList';
-import { fetchRoutes, fetchVehiclesByRoute, fetchRoutePlaces } from './supabase';
+import {
+  fetchRoutes,
+  fetchVehiclesByRoute,
+  fetchRoutePlaces,
+  fetchDeliveryVehicles
+} from './supabase';
 import './styles.css';
 
 function App() {
   const [routes, setRoutes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
+  const [deliveryVehicles, setDeliveryVehicles] = useState([]);
+const [deliveryLoading, setDeliveryLoading] = useState(false);
+const [deliveryError, setDeliveryError] = useState(null);
   const [routePlaces, setRoutePlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
   const [vehiclesLoading, setVehiclesLoading] = useState(false);
-  const [deliveryVehicles, setDeliveryVehicles] = useState([]);
-const [deliveryLoading, setDeliveryLoading] = useState(false);
-const [deliveryError, setDeliveryError] = useState(null);
 
   const [selectedRoute, setSelectedRoute] = useState({
     fromCity: '',
@@ -129,6 +134,40 @@ setRoutes(normalizedRoutes);
 };
  const reshuffleVehicles = () => {
   setVehicles(prev => shuffleArray(prev));
+};
+
+  // 📦 ЗАГРУЗКА ДОСТАВКИ
+const DELIVERY_CACHE_TTL = 1000 * 60 * 5; // 5 минут
+
+const loadDelivery = async () => {
+  try {
+    setDeliveryLoading(true);
+    setDeliveryError(null);
+
+    const cached = localStorage.getItem('delivery_cache');
+    if (cached) {
+      const parsed = JSON.parse(cached);
+      if (Date.now() - parsed.timestamp < DELIVERY_CACHE_TTL) {
+        setDeliveryVehicles(parsed.data);
+        return;
+      }
+    }
+
+    const data = await fetchDeliveryVehicles();
+    setDeliveryVehicles(data);
+
+    localStorage.setItem(
+      'delivery_cache',
+      JSON.stringify({
+        timestamp: Date.now(),
+        data,
+      })
+    );
+  } catch (e) {
+    setDeliveryError(e.message || 'Delivery load error');
+  } finally {
+    setDeliveryLoading(false);
+  }
 };
   
   // 👉 НОВОЕ ПОВЕДЕНИЕ
