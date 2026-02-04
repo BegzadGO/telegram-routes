@@ -77,7 +77,8 @@ export const fetchVehiclesByRoute = async (routeId) => {
           phone
         )
       `)
-      .eq('route_id', routeId);
+      .eq('route_id', routeId)
+.limit(50);
 
     if (error) throw error;
 
