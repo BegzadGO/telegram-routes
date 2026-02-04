@@ -546,3 +546,8 @@ body {
 .route-place-map-link:hover {
   text-decoration: underline;
 }
+
+.loading-screen,
+.error-container {
+  background: #ffffff;
+}
