@@ -58,6 +58,12 @@ const [deliveryError, setDeliveryError] = useState(null);
     }
   }, []);
 
+  useEffect(() => {
+  if (screen === 'delivery' && deliveryVehicles.length === 0) {
+    loadDelivery();
+  }
+}, [screen]);
+  
   // Load routes
   useEffect(() => {
     loadRoutes();
