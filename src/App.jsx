@@ -262,14 +262,14 @@ setRoutePlaces(places);
     className={screen === 'routes' ? 'active' : ''}
     onClick={() => setScreen('routes')}
   >
-    🧭 Маршруты
+    🧭 Jonelisler
   </button>
 
   <button
     className={screen === 'favorites' ? 'active' : ''}
     onClick={() => setScreen('favorites')}
   >
-    ❤️ Избранное
+    ❤️ Saqlangan
   </button>
 </div>
     </div>
