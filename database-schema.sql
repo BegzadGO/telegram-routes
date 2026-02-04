@@ -29,8 +29,6 @@ CREATE TABLE IF NOT EXISTS vehicles (
   route_id UUID REFERENCES routes(id) ON DELETE CASCADE,
   driver_id UUID REFERENCES drivers(id) ON DELETE CASCADE,
   vehicle_name TEXT NOT NULL,
-  type TEXT NOT NULL CHECK (type IN ('bus', 'car', 'minivan')),
-  price INTEGER,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
