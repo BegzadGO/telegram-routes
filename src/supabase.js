@@ -1,4 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
+/**
+ * Retry function with exponential backoff
+ * Помогает при временных проблемах с сетью или rate limits
+ */
+const fetchWithRetry = async (fn, retries = 3, delay = 1000) => {
+  for (let i = 0; i < retries; i++) {
+    try {
+      return await fn();
+    } catch (error) {
+      // Если это последняя попытка - выбрасываем ошибку
+      if (i === retries - 1) throw error;
+      
+      // Экспоненциальная задержка: 1s, 2s, 4s...
+      const waitTime = delay * Math.pow(2, i);
+      console.log(`Retry ${i + 1}/${retries} after ${waitTime}ms...`);
+      await new Promise(resolve => setTimeout(resolve, waitTime));
+    }
+  }
+};
 
 // Supabase configuration - these will be set in .env file
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -25,17 +44,14 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
  * @returns {Promise<Array>} Array of route objects
  */
 export const fetchRoutes = async () => {
-  try {
+  return fetchWithRetry(async () => {
     const { data, error } = await supabase
       .from('routes')
       .select('id, from_city, to_city');
 
     if (error) throw error;
     return data || [];
-  } catch (error) {
-    console.error('Error fetching routes:', error);
-    throw error;
-  }
+  });
 };
 
 /**
@@ -44,7 +60,7 @@ export const fetchRoutes = async () => {
  * @returns {Promise<Array>} Array of vehicle objects with driver data
  */
 export const fetchVehiclesByRoute = async (routeId) => {
-  try {
+  return fetchWithRetry(async () => {
     const { data, error } = await supabase
       .from('vehicles')
       .select(`
@@ -66,18 +82,14 @@ export const fetchVehiclesByRoute = async (routeId) => {
       driver_name: vehicle.driver?.name || 'N/A',
       driver_phone: vehicle.driver?.phone || null,
     }));
-  } catch (error) {
-    console.error('Error fetching vehicles:', error);
-    throw error;
-  }
+  });
 };
-
 /**
  * Fetch route places (parking, notes, locations) for a route
  * @param {string} routeId
  */
 export const fetchRoutePlaces = async (routeId) => {
-  try {
+  return fetchWithRetry(async () => {
     const { data, error } = await supabase
       .from('route_places')
       .select('*')
@@ -85,8 +97,5 @@ export const fetchRoutePlaces = async (routeId) => {
 
     if (error) throw error;
     return data || [];
-  } catch (error) {
-    console.error('Error fetching route places:', error);
-    throw error;
-  }
+  });
 };
