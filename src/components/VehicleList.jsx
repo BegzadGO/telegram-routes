@@ -76,13 +76,7 @@ const VehicleList = ({
     </div>
   </div>
 )}
-      {onRefresh && (
-  <div className="list-actions">
-    <button className="refresh-button" onClick={onRefresh}>
-      🔄 Обновить список
-    </button>
-  </div>
-)}
+      
       {vehicles.length > 0 && (
   <>
     <h2 className="vehicle-list-title">
