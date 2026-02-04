@@ -1,5 +1,3 @@
-import React from 'react';
-
 const VehicleCard = ({ vehicle, isFavorite, onToggleFavorite }) => {
   const { vehicle_name, driver_name, driver_phone } = vehicle;
   const formatDriverName = (name) => {
