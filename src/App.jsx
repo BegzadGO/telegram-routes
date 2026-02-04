@@ -70,7 +70,7 @@ const [deliveryError, setDeliveryError] = useState(null);
   }, []);
 
   const ROUTES_CACHE_KEY = 'routes_cache_v2';
-const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 6; // 6 часов
+const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 12; // 6 часов
   const VEHICLES_CACHE_TTL = 1000 * 60 * 2; // 2 минуты
 const getVehiclesCacheKey = (routeId) => `vehicles_cache_${routeId}`;
 
@@ -143,7 +143,7 @@ setRoutes(normalizedRoutes);
 };
 
   // 📦 ЗАГРУЗКА ДОСТАВКИ
-const DELIVERY_CACHE_TTL = 1000 * 60 * 5; // 5 минут
+const DELIVERY_CACHE_TTL = 1000 * 60 * 60 * 12; // 12 часов
 
 const loadDelivery = async () => {
   try {
@@ -183,7 +183,7 @@ const loadDelivery = async () => {
   if (cached) {
     const parsed = JSON.parse(cached);
 
-    if (Date.now() - parsed.timestamp < 1000 * 60 * 2) {
+    if (Date.now() - parsed.timestamp < 1000 * 60 * 60 * 12) {
       setSelectedRoute({ fromCity, toCity });
       setVehicles(parsed.data);
       setScreen('vehicles');
