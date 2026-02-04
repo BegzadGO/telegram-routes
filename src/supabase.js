@@ -8,13 +8,19 @@ const fetchWithRetry = async (fn, retries = 3, delay = 1000) => {
     try {
       return await fn();
     } catch (error) {
-      // Если это последняя попытка - выбрасываем ошибку
-      if (i === retries - 1) throw error;
-      
-      // Экспоненциальная задержка: 1s, 2s, 4s...
-      const waitTime = delay * Math.pow(2, i);
-      console.log(`Retry ${i + 1}/${retries} after ${waitTime}ms...`);
-      await new Promise(resolve => setTimeout(resolve, waitTime));
+  if (
+    error?.status &&
+    error.status >= 400 &&
+    error.status < 500 &&
+    error.status !== 429
+  ) {
+    throw error;
+  }
+
+  if (i === retries - 1) throw error;
+
+  const waitTime = delay * Math.pow(2, i);
+  await new Promise(resolve => setTimeout(resolve, waitTime));
     }
   }
 };
