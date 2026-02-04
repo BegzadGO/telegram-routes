@@ -42,22 +42,54 @@ const VehicleList = ({
   return (
     <div className="vehicle-list">
       {routePlaces.length > 0 && (
-  <div className="route-places">
-    <h3>📍 Информация по маршруту</h3>
+  <div style={{ marginBottom: '16px' }}>
+    <h3 style={{ marginBottom: '10px' }}>
+      📍 Где стоят машины
+    </h3>
 
     {routePlaces.map(place => (
-      <div key={place.id} className="route-place-card">
-        {place.title && <strong>{place.title}</strong>}
-        {place.note && <p>{place.note}</p>}
-        {place.address && <p>🏠 {place.address}</p>}
+      <div
+        key={place.id}
+        style={{
+          background: '#f9fafb',
+          border: '1px solid #e5e7eb',
+          borderRadius: '12px',
+          padding: '12px',
+          marginBottom: '10px'
+        }}
+      >
+        {place.title && (
+          <div style={{ fontWeight: 600, marginBottom: '6px' }}>
+            📍 {place.title}
+          </div>
+        )}
+
+        {place.note && (
+          <div style={{ fontSize: '14px', color: '#374151', marginBottom: '6px' }}>
+            {place.note}
+          </div>
+        )}
+
+        {place.address && (
+          <div style={{ fontSize: '14px', color: '#111827', marginBottom: '8px' }}>
+            🏠 {place.address}
+          </div>
+        )}
 
         {place.lat && place.lng && (
           <a
             href={`https://maps.google.com/?q=${place.lat},${place.lng}`}
             target="_blank"
             rel="noreferrer"
+            style={{
+              display: 'inline-block',
+              fontSize: '14px',
+              color: '#2563eb',
+              textDecoration: 'none',
+              fontWeight: 500
+            }}
           >
-            📍 Открыть на карте
+            📍 Открыть на карте →
           </a>
         )}
       </div>
