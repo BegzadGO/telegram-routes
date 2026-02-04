@@ -100,7 +100,8 @@ export const fetchRoutePlaces = async (routeId) => {
     const { data, error } = await supabase
       .from('route_places')
       .select('id, title, note, address, lat, lng')
-      .eq('route_id', routeId);
+.eq('route_id', routeId)
+.limit(20);
 
     if (error) throw error;
     return data || [];
