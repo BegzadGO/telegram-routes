@@ -92,7 +92,7 @@ export const fetchRoutePlaces = async (routeId) => {
   return fetchWithRetry(async () => {
     const { data, error } = await supabase
       .from('route_places')
-      .select('*')
+      .select('id, title, note, address, lat, lng')
       .eq('route_id', routeId);
 
     if (error) throw error;
