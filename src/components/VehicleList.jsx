@@ -99,7 +99,7 @@ const VehicleList = ({
       {vehicles.length === 0 && (
   <div className="empty-state">
     <div className="empty-state-icon">🚗</div>
-    <div className="empty-state-title">Xazirshe mashinlar joq</div>
+    <div className="empty-state-title">Xazirshe taksiler joq</div>
     <div className="empty-state-text">
       {fromCity && toCity 
         ? `No vehicles found for route ${fromCity} → ${toCity}`
