@@ -11,6 +11,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
+  const [vehiclesLoading, setVehiclesLoading] = useState(false);
 
   const [selectedRoute, setSelectedRoute] = useState({
     fromCity: '',
