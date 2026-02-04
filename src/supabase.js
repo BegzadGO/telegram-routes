@@ -106,3 +106,29 @@ export const fetchRoutePlaces = async (routeId) => {
     return data || [];
   });
 };
+
+export const fetchDeliveryVehicles = async () => {
+  return fetchWithRetry(async () => {
+    const { data, error } = await supabase
+      .from('vehicles')
+      .select(`
+        id,
+        vehicle_name,
+        driver:driver_id (
+          name,
+          phone
+        )
+      `)
+      .eq('type', 'delivery')
+      .limit(50);
+
+    if (error) throw error;
+
+    return (data || []).map(vehicle => ({
+      id: vehicle.id,
+      vehicle_name: vehicle.vehicle_name,
+      driver_name: vehicle.driver?.name || 'N/A',
+      driver_phone: vehicle.driver?.phone || null,
+    }));
+  });
+};
