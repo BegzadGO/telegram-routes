@@ -57,6 +57,8 @@ function App() {
 
   const ROUTES_CACHE_KEY = 'routes_cache_v2';
 const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 6; // 6 часов
+  const VEHICLES_CACHE_TTL = 1000 * 60 * 2; // 2 минуты
+const getVehiclesCacheKey = (routeId) => `vehicles_cache_${routeId}`;
 
 const loadRoutes = async () => {
   try {
@@ -128,6 +130,18 @@ setRoutes(normalizedRoutes);
   
   // 👉 НОВОЕ ПОВЕДЕНИЕ
   const handleSearch = async (routeId, fromCity, toCity) => {
+    // 🔹 ПРОВЕРКА КЕША МАШИН ПО МАРШРУТУ
+  const cached = localStorage.getItem(`vehicles_cache_${routeId}`);
+  if (cached) {
+    const parsed = JSON.parse(cached);
+
+    if (Date.now() - parsed.timestamp < 1000 * 60 * 2) {
+      setSelectedRoute({ fromCity, toCity });
+      setVehicles(parsed.data);
+      setScreen('vehicles');
+      return;
+    }
+  }
     try {
       setVehiclesLoading(true);
       setVehiclesError(null);
