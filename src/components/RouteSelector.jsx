@@ -34,10 +34,6 @@ if (route) {
   const actualRouteId = route.isReverse ? route.original_route_id : route.id;
   onSearch(actualRouteId, fromCity, toCity);
 }
-
-  if (route) {
-    onSearch(route.id, fromCity, toCity);
-  }
 };
 
   // Check if search button should be enabled
