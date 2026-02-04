@@ -17,14 +17,17 @@ const VehicleList = ({
 }) => {
   // Loading state
   if (loading) {
-    return (
-      <div className="loading-container">
-        <div>
-          <div className="loading-spinner"></div>
-          <div className="loading-text">Juklenbekte...</div>
+  return (
+    <div className="loading-screen">
+      <div className="loading-card">
+        <div className="loading-logo">🚕</div>
+        <div className="loading-subtitle">Juklenbekte...</div>
+        <div className="loading-dots">
+          <span></span><span></span><span></span>
         </div>
       </div>
-    );
+    </div>
+  );
   }
 
   // Error state
