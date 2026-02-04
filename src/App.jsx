@@ -9,7 +9,6 @@ function App() {
   const [vehicles, setVehicles] = useState([]);
   const [routePlaces, setRoutePlaces] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [vehiclesLoading, setVehiclesLoading] = useState(false);
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
 
