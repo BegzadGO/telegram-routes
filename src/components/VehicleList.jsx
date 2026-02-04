@@ -44,7 +44,7 @@ const VehicleList = ({
       {routePlaces.length > 0 && (
   <div style={{ marginBottom: '16px' }}>
     <h3 style={{ marginBottom: '10px' }}>
-      📍 Где стоят машины
+      📍 Gazeller bar
     </h3>
 
     {routePlaces.map(place => (
@@ -89,7 +89,7 @@ const VehicleList = ({
               fontWeight: 500
             }}
           >
-            📍 Открыть на карте →
+            📍 Kartada koriw →
           </a>
         )}
       </div>
