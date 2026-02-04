@@ -150,7 +150,14 @@ setRoutes(normalizedRoutes);
       const data = await fetchVehiclesByRoute(routeId);
 const shuffled = shuffleArray(data);
 setVehicles(shuffled);
-
+localStorage.setItem(
+  `vehicles_cache_${routeId}`,
+  JSON.stringify({
+    timestamp: Date.now(),
+    data: shuffled,
+  })
+);
+      
 // 👉 ЗАГРУЖАЕМ СТОЯНКИ / ИНФОРМАЦИЮ
 try {
   const places = await fetchRoutePlaces(routeId);
