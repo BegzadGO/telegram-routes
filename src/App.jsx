@@ -335,7 +335,7 @@ if (cachedPlaces) {
       {screen === 'delivery' && (
   <>
     <header className="vehicles-header">
-      <h1 className="app-title">📦 Jetkiziw</h1>
+      <h1 className="app-title">Juk Mashinlar</h1>
     </header>
 
     <VehicleList
