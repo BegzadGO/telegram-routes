@@ -71,7 +71,7 @@ const [deliveryError, setDeliveryError] = useState(null);
 
   const ROUTES_CACHE_KEY = 'routes_cache_v2';
 const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 12; // 6 часов
-  const VEHICLES_CACHE_TTL = 1000 * 60 * 2; // 2 минуты
+  const VEHICLES_CACHE_TTL = 1000 * 60 * 60 * 12; // 12 часов
 const getVehiclesCacheKey = (routeId) => `vehicles_cache_${routeId}`;
 
 const loadRoutes = async () => {
@@ -183,7 +183,7 @@ const loadDelivery = async () => {
   if (cached) {
     const parsed = JSON.parse(cached);
 
-    if (Date.now() - parsed.timestamp < 1000 * 60 * 60 * 12) {
+    if (Date.now() - parsed.timestamp < VEHICLES_CACHE_TTL) {
       setSelectedRoute({ fromCity, toCity });
       setVehicles(parsed.data);
       setScreen('vehicles');
@@ -207,12 +207,30 @@ localStorage.setItem(
 );
       
 // 👉 ЗАГРУЖАЕМ СТОЯНКИ / ИНФОРМАЦИЮ
-try {
-  const places = await fetchRoutePlaces(routeId);
-  setRoutePlaces(places || []);
-} catch (placesErr) {
-  console.error('Failed to load route places:', placesErr);
-  setRoutePlaces([]);
+const placesCacheKey = `route_places_${routeId}`;
+const cachedPlaces = localStorage.getItem(placesCacheKey);
+
+if (cachedPlaces) {
+  const parsed = JSON.parse(cachedPlaces);
+  if (Date.now() - parsed.timestamp < ROUTES_CACHE_TTL) {
+    setRoutePlaces(parsed.data);
+  }
+} else {
+  try {
+    const places = await fetchRoutePlaces(routeId);
+    setRoutePlaces(places || []);
+
+    localStorage.setItem(
+      placesCacheKey,
+      JSON.stringify({
+        timestamp: Date.now(),
+        data: places || [],
+      })
+    );
+  } catch (e) {
+    console.error('route places error', e);
+    setRoutePlaces([]);
+  }
 }
 
       // 👉 ПЕРЕХОД НА ВТОРОЙ ЭКРАН
