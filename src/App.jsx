@@ -353,7 +353,7 @@ if (cachedPlaces) {
       {screen === 'favorites' && (
   <>
     <header className="vehicles-header">
-      <h1 className="app-title">Избранное</h1>
+      <h1 className="app-title">Saqlanģanlar</h1>
     </header>
 
     <VehicleList
