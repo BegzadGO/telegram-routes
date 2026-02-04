@@ -362,7 +362,7 @@ try {
   className={screen === 'delivery' ? 'active' : ''}
   onClick={() => setScreen('delivery')}
 >
-  📦 Jetkiziw
+  📦 Juk mashinlari
 </button>
 
 <button
