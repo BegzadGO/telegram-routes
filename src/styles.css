@@ -498,3 +498,51 @@ body {
 
   z-index: 2;
 }
+
+/* Route Places Styles */
+.route-places {
+  margin-bottom: 16px;
+}
+
+.route-places-title {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.route-place-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.route-place-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.route-place-note {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.route-place-address {
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.route-place-map-link {
+  display: inline-block;
+  font-size: 14px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.route-place-map-link:hover {
+  text-decoration: underline;
+}
