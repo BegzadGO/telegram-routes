@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import RouteSelector from './components/RouteSelector';
 import VehicleList from './components/VehicleList';
 import { fetchRoutes, fetchVehiclesByRoute, fetchRoutePlaces } from './supabase';
