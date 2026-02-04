@@ -41,36 +41,27 @@ const VehicleList = ({
   return (
     <div className="vehicle-list">
       {routePlaces.length > 0 && (
-  <div style={{ marginBottom: '16px' }}>
-    <h3 style={{ marginBottom: '10px' }}>
+  <div className="route-places">
+    <h3 className="route-places-title">
       📍 Gazeller bar
     </h3>
 
     {routePlaces.map(place => (
-      <div
-        key={place.id}
-        style={{
-          background: '#f9fafb',
-          border: '1px solid #e5e7eb',
-          borderRadius: '12px',
-          padding: '12px',
-          marginBottom: '10px'
-        }}
-      >
+      <div key={place.id} className="route-place-card">
         {place.title && (
-          <div style={{ fontWeight: 600, marginBottom: '6px' }}>
+          <div className="route-place-title">
             📍 {place.title}
           </div>
         )}
 
         {place.note && (
-          <div style={{ fontSize: '14px', color: '#374151', marginBottom: '6px' }}>
+          <div className="route-place-note">
             {place.note}
           </div>
         )}
 
         {place.address && (
-          <div style={{ fontSize: '14px', color: '#111827', marginBottom: '8px' }}>
+          <div className="route-place-address">
             🏠 {place.address}
           </div>
         )}
@@ -80,13 +71,7 @@ const VehicleList = ({
             href={`https://maps.google.com/?q=${place.lat},${place.lng}`}
             target="_blank"
             rel="noreferrer"
-            style={{
-              display: 'inline-block',
-              fontSize: '14px',
-              color: '#2563eb',
-              textDecoration: 'none',
-              fontWeight: 500
-            }}
+            className="route-place-map-link"
           >
             📍 Kartada koriw →
           </a>
