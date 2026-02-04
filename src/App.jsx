@@ -12,6 +12,9 @@ function App() {
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
   const [vehiclesLoading, setVehiclesLoading] = useState(false);
+  const [deliveryVehicles, setDeliveryVehicles] = useState([]);
+const [deliveryLoading, setDeliveryLoading] = useState(false);
+const [deliveryError, setDeliveryError] = useState(null);
 
   const [selectedRoute, setSelectedRoute] = useState({
     fromCity: '',
@@ -285,18 +288,25 @@ try {
 )}
       <div className="bottom-nav">
   <button
-    className={screen === 'routes' ? 'active' : ''}
-    onClick={() => setScreen('routes')}
-  >
-    🧭 Jonelisler
-  </button>
+  className={screen === 'routes' ? 'active' : ''}
+  onClick={() => setScreen('routes')}
+>
+  🧭 Jonelisler
+</button>
 
-  <button
-    className={screen === 'favorites' ? 'active' : ''}
-    onClick={() => setScreen('favorites')}
-  >
-    ❤️ Saqlangan
-  </button>
+<button
+  className={screen === 'delivery' ? 'active' : ''}
+  onClick={() => setScreen('delivery')}
+>
+  📦 Jetkiziw
+</button>
+
+<button
+  className={screen === 'favorites' ? 'active' : ''}
+  onClick={() => setScreen('favorites')}
+>
+  ❤️ Saqlangan
+</button>
 </div>
     </div>
   );
