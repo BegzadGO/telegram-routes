@@ -40,58 +40,48 @@ if (route) {
   const canSearch = fromCity && toCity && !loading;
 
   return (
-    <div className="route-selector">
-      <h2 className="route-selector-title">Jonelisti tanlañ</h2>
-      
-      <div className="select-group">
-        <label className="select-label" htmlFor="from-city">
-          Qayerden
-        </label>
-        <select
-          id="from-city"
-          className="select-input"
-          value={fromCity}
-          onChange={(e) => setFromCity(e.target.value)}
-          disabled={loading}
-        >
-          <option value="">Qayerden ketiwñizdi tanlañ</option>
-          {fromCities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-      </div>
+  <div className="route-card">
+    <h2 className="route-card-title">🚕 Jonelisti tañlañ</h2>
 
-      <div className="select-group">
-        <label className="select-label" htmlFor="to-city">
-          Qayerge
-        </label>
-        <select
-          id="to-city"
-          className="select-input"
-          value={toCity}
-          onChange={(e) => setToCity(e.target.value)}
-          disabled={!fromCity || loading}
-        >
-          <option value="">Qayerge bariwñizdi tanlañ</option>
-          {toCities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button
-        className="show-button"
-        onClick={handleSearch}
-        disabled={!canSearch}
+    <div className="route-input">
+      <label>Qayerden</label>
+      <select
+        value={fromCity}
+        onChange={(e) => setFromCity(e.target.value)}
+        disabled={loading}
       >
-        {loading ? 'Juklenbekte...' : 'Korsetiw'}
-      </button>
+        <option value="">Qayerden ketiwñizdi tanlañ</option>
+        {fromCities.map(city => (
+          <option key={city} value={city}>{city}</option>
+        ))}
+      </select>
     </div>
-  );
+
+    <div className="route-arrow">↓</div>
+
+    <div className="route-input">
+      <label>Qayerge</label>
+      <select
+        value={toCity}
+        onChange={(e) => setToCity(e.target.value)}
+        disabled={!fromCity || loading}
+      >
+        <option value="">Qayerge bariwñizdi tanlañ</option>
+        {toCities.map(city => (
+          <option key={city} value={city}>{city}</option>
+        ))}
+      </select>
+    </div>
+
+    <button
+      className="route-submit"
+      onClick={handleSearch}
+      disabled={!canSearch}
+    >
+      {loading ? 'Juklenbekte...' : '🚕 Korsetiw'}
+    </button>
+  </div>
+);
 };
 
 export default RouteSelector;
