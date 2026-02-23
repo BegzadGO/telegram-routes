@@ -99,7 +99,7 @@ function App() {
       const cached = localStorage.getItem('delivery_cache');
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Date.now() - parsed.timestamp < 1000 * 60 * 60 * 12) { setDeliveryVehicles(parsed.data); return; }
+        if (Date.now() - parsed.timestamp < CACHE_TTL) { setDeliveryVehicles(parsed.data); return; }
       }
       const data = await fetchDeliveryVehicles();
       setDeliveryVehicles(data);
@@ -118,9 +118,7 @@ function App() {
     }
       try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
-        const [data] = await Promise.all([
-        fetchVehiclesByRoute(routeId),
-      ]);
+        const data = await fetchVehiclesByRoute(routeId);
 
       const shuffled = shuffleArray(data);
       setVehicles(shuffled);
