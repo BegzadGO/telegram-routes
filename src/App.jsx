@@ -119,7 +119,9 @@ function App() {
       }
     }
     try {
+      try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
+      setRoutePlaces([]);
       const placesCacheKey = `route_places_${routeId}`;
       const cachedPlaces = localStorage.getItem(placesCacheKey);
       const needPlaces = !cachedPlaces || (Date.now() - JSON.parse(cachedPlaces).timestamp >= CACHE_TTL);
