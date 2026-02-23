@@ -119,7 +119,6 @@ function App() {
     try {
       try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
-      setRoutePlaces([]);
         const [data] = await Promise.all([
         fetchVehiclesByRoute(routeId),
       ]);
