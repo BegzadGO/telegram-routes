@@ -44,8 +44,8 @@ const VehicleList = ({
     <div className="vehicle-list">
       {vehicles.length === 0 && (
   <div className="empty-state">
-    <div className="empty-state-icon">🚗</div>
-    <div className="empty-state-title">Xazirshe taksiler joq</div>
+    <div className="empty-state-icon">🚚</div>
+    <div className="empty-state-title">Xazirshe juk mashinlar joq</div>
     <div className="empty-state-text">
       {fromCity && toCity 
         ? `${fromCity} → ${toCity} jonelisi boyınsha taksi tabılmadı`
