@@ -13,7 +13,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
   const handleSubmit = () => {
     const cleaned = phone.replace(/\D/g, '');
     if (cleaned.length < 9) {
-      setError('Телефон номерини тўғри киритинг');
+      setError('Телефон номерини тўыри киритинг');
       return;
     }
     onSubmit(phone);
@@ -26,13 +26,13 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
           📍 {fromCity} → {toCity}
         </div>
 
-        <h2 className="booking-title">Заявка қолдириш</h2>
+        <h2 className="booking-title">Заявка қалдирыу</h2>
         <p className="booking-subtitle">
-          Телефон рақамингизни киритинг, биз сиз билан 5 дақиқа ичида боғланамиз
+          Телефон номериңизды қалдирың, биз сиз бенен 5 минут ишинде байланисамиз
         </p>
 
         <div className="booking-field">
-          <label className="booking-label">Телефон рақами</label>
+          <label className="booking-label">Телефон номери</label>
           <input
             className={`booking-input ${error ? 'booking-input--error' : ''}`}
             type="tel"
@@ -54,7 +54,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
               <span></span><span></span><span></span>
             </span>
           ) : (
-            '✅ Заявка юбориш'
+            '✅ Заявка жиберыу'
           )}
         </button>
 
