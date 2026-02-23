@@ -116,7 +116,6 @@ function App() {
         setSelectedRoute({ fromCity, toCity }); setVehicles(parsed.data); setScreen('vehicles'); return;
       }
     }
-    try {
       try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
         const [data] = await Promise.all([
