@@ -136,8 +136,10 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
     `👤 Фойдаланувчи: ${userInfo}\n` +
     `🕐 Вақт: ${new Date().toLocaleString('ru-RU')}`;
 
-  try {
-    await supabase.from('bookings').insert([{
+  const driverGroupId = import.meta.env.VITE_DRIVER_GROUP_ID;
+
+  await Promise.allSettled([
+    supabase.from('bookings').insert([{
       phone,
       from_city: fromCity,
       to_city: toCity,
@@ -145,44 +147,29 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
       telegram_username: telegramUsername || null,
       status: 'new',
       created_at: new Date().toISOString(),
-    }]);
-  } catch (e) {
-    console.warn('Supabase insert error:', e);
-  }
-
-  try {
-    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    }]),
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         chat_id: ownerChatId,
         text: message,
       }),
-    });
-  } catch (e) {
-    console.warn('Telegram error:', e);
-  }
-
-  const driverGroupId = import.meta.env.VITE_DRIVER_GROUP_ID;
-  if (botToken && driverGroupId) {
-    try {
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: driverGroupId,
-          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n⏳ Status: kutilmoqda...`,
-          reply_markup: {
-            inline_keyboard: [[
-              { text: "✅ Olish", callback_data: `take|${phone}|${fromCity}|${toCity}` }
-            ]]
-          }
-        }),
-      });
-    } catch (e) {
-      console.warn('Group notification error:', e);
-    }
-  }
+    }),
+    driverGroupId ? fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: driverGroupId,
+        text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n⏳ Status: kutilmoqda...`,
+        reply_markup: {
+          inline_keyboard: [[
+            { text: "✅ Olish", callback_data: `take|${phone}|${fromCity}|${toCity}` }
+          ]]
+        }
+      }),
+    }) : Promise.resolve(),
+  ]);
 
   return true;
 };
