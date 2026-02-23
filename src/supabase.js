@@ -171,7 +171,7 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           chat_id: driverGroupId,
-          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n📞 Telefon: ${phone}\n⏳ Status: kutilmoqda...`,
+          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n⏳ Status: kutilmoqda...`,
           reply_markup: {
             inline_keyboard: [[
               { text: "✅ Olish", callback_data: `take|${phone}|${fromCity}|${toCity}` }
