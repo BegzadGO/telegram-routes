@@ -212,8 +212,8 @@ function App() {
             favorites={favorites} onToggleFavorite={toggleFavorite}
           />
           <div className="booking-banner">
-            <p className="booking-banner-text">Қайси транспорт бўш? Биз сизга ёрдам берамиз!</p>
-            <button className="booking-banner-btn" onClick={handleOpenBooking}>📋 Заявка қолдириш</button>
+            <p className="booking-banner-text">Қайси транспорт бос? Биз сизге жардем беремиз!</p>
+            <button className="booking-banner-btn" onClick={handleOpenBooking}>📋 Заявка қалдирыу</button>
           </div>
         </>
       )}
