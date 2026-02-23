@@ -7,7 +7,7 @@ const SuccessScreen = ({ fromCity, toCity, phone, onBack }) => {
         <h2 className="success-title">Заявка қабул қилинды!</h2>
 
         <p className="success-message">
-          Сиз бенен <strong>5 минут ишинде</strong> байланисады
+          Сиз бенен <strong>5 минут ишинде</strong> байланисамиз
         </p>
 
         <div className="success-details">
