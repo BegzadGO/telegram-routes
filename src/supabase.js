@@ -163,5 +163,26 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
     console.warn('Telegram error:', e);
   }
 
+  const driverGroupId = import.meta.env.VITE_DRIVER_GROUP_ID;
+  if (botToken && driverGroupId) {
+    try {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: driverGroupId,
+          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n📞 Telefon: ${phone}\n⏳ Status: kutilmoqda...`,
+          reply_markup: {
+            inline_keyboard: [[
+              { text: "✅ Olish", callback_data: `take|${phone}|${fromCity}|${toCity}` }
+            ]]
+          }
+        }),
+      });
+    } catch (e) {
+      console.warn('Group notification error:', e);
+    }
+  }
+
   return true;
 };
