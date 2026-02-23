@@ -18,6 +18,7 @@ function App() {
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [splash, setSplash] = useState(true);
   const [error, setError] = useState(null);
 
 
@@ -26,6 +27,11 @@ function App() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingPhone, setBookingPhone] = useState('');
 
+  useEffect(() => {
+    const timer = setTimeout(() => setSplash(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+  
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
@@ -101,7 +107,7 @@ function App() {
     } finally { setBookingLoading(false); }
   };
 
-  if (loading) return (
+  if (loading || splash) return (
     <div className="loading-screen">
       <div className="loading-card">
         <div className="loading-logo">🚕 Taksi <strong>95</strong></div>
