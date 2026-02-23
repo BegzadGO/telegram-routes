@@ -1,0 +1,824 @@
+:root {
+  --bg: #f6f7f9;
+  --card: #fffdfa;
+
+  /* 🎯 НОВЫЙ АКЦЕНТНЫЙ ЦВЕТ */
+  --primary: #f59e0b;        /* тёплый янтарный */
+  --primary-soft: #fff4d6;   /* мягкий фон под акценты */
+
+  --text: #0f172a;
+  --muted: #6b7280;
+  --border: #e6e8ee;
+
+  --shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+
+  --radius-lg: 18px;
+  --radius-md: 14px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #e07a14; /* один цвет везде */
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+/* APP */
+.app-container {
+  position: relative;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 20px 16px 28px;
+  min-height: 100vh;
+  overflow: hidden;
+  padding-bottom: 80px;
+}
+
+.app-title {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.app-subtitle {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+.route-selector {
+  max-width: 360px;
+  margin: 16px auto 0;
+  background: var(--card);
+  border-radius: 18px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+}
+
+.route-selector select {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--text);
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+.route-selector select:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.show-button {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(180deg, #f59e0b, #e07a14);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  box-shadow: 0 6px 0 #c66a10;
+}
+.show-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #c66a10;
+}
+
+/* VEHICLE LIST */
+
+.vehicle-list {
+  position: relative;
+  margin: 8px auto 0; /* ближе к маршруту */
+  max-width: 360px;
+
+  background: var(--card);
+  border-radius: 20px;
+  padding: 16px;
+
+  box-shadow: var(--shadow);
+}
+
+/* VEHICLE CARD */
+
+.vehicle-card {
+  background: var(--card);
+  border-radius: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  position: relative;
+}
+
+/* Top row: vehicle name / driver name */
+
+.vehicle-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.vehicle-name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.driver-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* Phone button */
+
+.driver-phone {
+  display: block;
+  margin-top: 12px;
+  padding: 12px 0;
+  text-align: center;
+  border-radius: 14px;
+  background: linear-gradient(180deg, #fde68a, #facc15);
+  font-size: 16px;
+  font-weight: 700;
+  color: #111827;
+  text-decoration: none;
+  box-shadow: 0 4px 0 #eab308;
+}
+
+.driver-phone:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #eab308;
+}
+
+.app-container > header + .route-selector {
+  margin-top: 40px;
+}
+
+/* ROUTE SCREEN HEADER */
+
+.route-header {
+  position: relative;
+  text-align: center;
+  padding: 32px 16px 36px;
+  overflow: hidden;
+}
+
+.route-header .app-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+}
+
+.route-header .app-subtitle {
+  font-size: 14px;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* VEHICLES SCREEN HEADER */
+
+.vehicles-header {
+  position: relative;
+  padding: 28px 16px 12px; /* меньше пустоты сверху */
+  text-align: center;
+}
+
+.vehicles-header .app-title {
+  font-size: 26px;
+  font-weight: 800;
+  margin: 0;
+}
+
+/* BACK BUTTON — TOP LEFT */
+
+.back-button {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #1f2937;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.18);
+  cursor: pointer;
+  z-index: 1000;
+}
+
+/* Taxi accent line under titles */
+
+.vehicle-list h2::after {
+  content: "";
+  display: block;
+  width: 36px;
+  height: 3px;
+  margin-top: 8px;
+  background: #f59e0b;
+  border-radius: 2px;
+}
+
+/* =========================
+   BRAND HEADER (ROUTES)
+   ========================= */
+
+.brand-title {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+
+  padding: 18px 26px;
+  border-radius: 22px;
+
+  background-color: #e07a14;
+  border: 2px solid #000000;
+
+  text-align: center;
+}
+
+.brand-title .title-main {
+  font-size: 34px;
+  font-weight: 900;
+  color: #111827;
+}
+
+.brand-title .title-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: #111827;
+  opacity: 0.8;
+}
+
+.brand-title span {
+  color: #111827;          /* более тёмный оранжевый */
+  font-weight: 900;
+  font-size: 1.05em;       /* чуть больше, чем Taksi */
+  margin-left: 4px;
+}
+
+/* =========================
+   REAL TAXI CHECKERBOARD
+   BLACK → TRANSPARENT
+   ========================= */
+
+.app-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  /* ⬛⬛⬛ НАСТОЯЩИЙ ЧЁРНЫЙ */
+  background:
+    linear-gradient(45deg,
+      #000 25%,
+      transparent 25%,
+      transparent 75%,
+      #000 75%
+    ),
+    linear-gradient(45deg,
+      #000 25%,
+      transparent 25%,
+      transparent 75%,
+      #000 75%
+    );
+
+  background-size: 160px 160px;
+  background-position: 0 0, 80px 80px;
+
+  /* ⬇️ сверху ЧЁРНЫЙ, снизу исчезает */
+  mask-image: linear-gradient(
+    180deg,
+    black 0%,
+    black 30%,
+    rgba(0,0,0,0.5) 55%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    black 0%,
+    black 30%,
+    rgba(0,0,0,0.5) 55%,
+    transparent 100%
+  );
+
+  pointer-events: none;
+}
+
+.app-container > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* ROUTE BADGE ON VEHICLES SCREEN */
+
+.vehicles-header .app-title {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 16px;
+
+  background-color: #e07a14;
+  border: 2px solid #000000;
+
+  color: #111827;
+}
+
+.call-button {
+  display: block;
+  margin: 14px auto 0;
+  padding: 14px 20px;
+
+  width: fit-content;
+
+  border-radius: var(--radius-md);
+  border: none;
+
+  background: linear-gradient(180deg, #f59e0b, #e07a14);
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+  text-align: center;
+
+  box-shadow: 0 6px 0 #c66a10;
+}
+
+.call-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 0 #c66a10;
+}
+
+.empty-state {
+  margin: 40px 16px;
+  padding: 24px;
+
+  background: white;
+  border-radius: 16px;
+
+  text-align: center;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.empty-state-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.empty-state-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+
+.empty-state-text {
+  font-size: 14px;
+  color: #555;
+}
+
+/* ===== LOADING SCREEN ===== */
+
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 28px 32px;
+  text-align: center;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+}
+
+.loading-logo {
+  font-size: 28px;
+  font-weight: 900;
+  margin-bottom: 10px;
+}
+
+.loading-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 16px;
+}
+
+.loading-dots span {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin: 0 4px;
+  background: #f59e0b;
+  border-radius: 50%;
+  animation: loadingBounce 1.4s infinite both;
+}
+
+.loading-dots span:nth-child(1) { animation-delay: 0s; }
+.loading-dots span:nth-child(2) { animation-delay: .2s; }
+.loading-dots span:nth-child(3) { animation-delay: .4s; }
+
+@keyframes loadingBounce {
+  0%, 80%, 100% { transform: scale(0); }
+  40% { transform: scale(1); }
+}
+
+.list-actions {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.refresh-button {
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================
+   BOTTOM NAVIGATION
+   ========================= */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  height: 60px;
+
+  background: #ffffff;
+  border-top: 1px solid var(--border);
+
+  z-index: 200;
+}
+
+.bottom-nav button {
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.bottom-nav button.active {
+  color: var(--primary);
+}
+
+.favorite-button {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+
+  z-index: 2;
+}
+
+/* Route Places Styles */
+.route-places {
+  margin-bottom: 16px;
+}
+
+.route-places-title {
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.route-place-card {
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+.route-place-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.route-place-note {
+  font-size: 14px;
+  color: #374151;
+  margin-bottom: 6px;
+}
+
+.route-place-address {
+  font-size: 14px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.route-place-map-link {
+  display: inline-block;
+  font-size: 14px;
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.route-place-map-link:hover {
+  text-decoration: underline;
+}
+
+.loading-screen,
+.error-container {
+  background: #ffffff;
+}
+
+/* ===== Route Selector Card ===== */
+
+.route-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px;
+  margin: 16px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+.route-card-title {
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 18px;
+}
+
+.route-input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 14px;
+}
+
+.route-input label {
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: #555;
+}
+
+.route-input select {
+  padding: 14px;
+  font-size: 16px;
+  border-radius: 12px;
+  border: 1px solid #ddd;
+  outline: none;
+  background: #f9f9f9;
+}
+
+.route-input select:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.route-arrow {
+  text-align: center;
+  font-size: 22px;
+  margin: 4px 0 10px;
+  color: #888;
+}
+
+.route-submit {
+  width: 100%;
+  padding: 16px;
+  font-size: 17px;
+  border-radius: 14px;
+  border: none;
+  background: #111827;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.route-submit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== BOOKING BANNER (on vehicles screen) ===== */
+.booking-banner {
+  margin: 12px 16px 80px;
+  background: linear-gradient(135deg, #1a73e8, #0d47a1);
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+}
+.booking-banner-text {
+  color: rgba(255,255,255,0.9);
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+.booking-banner-btn {
+  background: #fff;
+  color: #1a73e8;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.1s;
+}
+.booking-banner-btn:active { transform: scale(0.97); }
+
+/* ===== BOOKING FORM SCREEN ===== */
+.booking-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--tg-theme-bg-color, #f5f5f5);
+}
+.booking-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--tg-theme-secondary-bg-color, #fff);
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+}
+.booking-route-label {
+  font-size: 13px;
+  color: #1a73e8;
+  font-weight: 600;
+  background: rgba(26,115,232,0.1);
+  border-radius: 8px;
+  padding: 6px 12px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.booking-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0 0 8px;
+  color: var(--tg-theme-text-color, #1a1a1a);
+}
+.booking-subtitle {
+  font-size: 14px;
+  color: var(--tg-theme-hint-color, #888);
+  margin: 0 0 24px;
+  line-height: 1.5;
+}
+.booking-field { margin-bottom: 20px; }
+.booking-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tg-theme-hint-color, #666);
+  margin-bottom: 8px;
+}
+.booking-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 14px 16px;
+  font-size: 18px;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background: var(--tg-theme-bg-color, #f9f9f9);
+  color: var(--tg-theme-text-color, #1a1a1a);
+  outline: none;
+  transition: border-color 0.2s;
+}
+.booking-input:focus { border-color: #1a73e8; }
+.booking-input--error { border-color: #e53935; }
+.booking-error {
+  font-size: 12px;
+  color: #e53935;
+  margin-top: 6px;
+}
+.booking-submit {
+  width: 100%;
+  padding: 16px;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+  margin-bottom: 12px;
+}
+.booking-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+.booking-submit:active { transform: scale(0.98); }
+.booking-cancel {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--tg-theme-hint-color, #888);
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+}
+.btn-loading {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+.btn-loading span {
+  width: 8px; height: 8px;
+  background: #fff;
+  border-radius: 50%;
+  animation: bounce 1s infinite;
+}
+.btn-loading span:nth-child(2) { animation-delay: 0.15s; }
+.btn-loading span:nth-child(3) { animation-delay: 0.3s; }
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ===== SUCCESS SCREEN ===== */
+.success-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 16px;
+  background: var(--tg-theme-bg-color, #f5f5f5);
+}
+.success-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--tg-theme-secondary-bg-color, #fff);
+  border-radius: 24px;
+  padding: 32px 24px;
+  text-align: center;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.1);
+}
+.success-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  animation: pop 0.4s ease;
+}
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  80% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+.success-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--tg-theme-text-color, #1a1a1a);
+  margin: 0 0 12px;
+}
+.success-message {
+  font-size: 16px;
+  color: var(--tg-theme-hint-color, #666);
+  line-height: 1.5;
+  margin: 0 0 24px;
+}
+.success-details {
+  background: var(--tg-theme-bg-color, #f5f5f5);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 24px;
+  text-align: left;
+}
+.success-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--tg-theme-text-color, #333);
+  padding: 6px 0;
+}
+.success-detail-row:not(:last-child) {
+  border-bottom: 1px solid rgba(0,0,0,0.07);
+}
+.success-back {
+  width: 100%;
+  padding: 14px;
+  background: #1a73e8;
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.success-back:active { opacity: 0.85; }
