@@ -6,7 +6,6 @@ import VehicleCard from './VehicleCard';
  */
 const VehicleList = ({
   vehicles,
-  routePlaces = [],
   loading,
   error,
   fromCity,
