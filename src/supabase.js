@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
  * Retry function with exponential backoff
  * Помогает при временных проблемах с сетью или rate limits
  */
-const fetchWithRetry = async (fn, retries = 3, delay = 1000) => {
+const fetchWithRetry = async (fn, retries = 2, delay = 300) => {
   for (let i = 0; i < retries; i++) {
     try {
       return await fn();
@@ -39,9 +39,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   auth: {
     persistSession: false,
     autoRefreshToken: false,
-  },
-  realtime: {
-    enabled: false, // Disable realtime as we don't need subscriptions
   },
 });
 
