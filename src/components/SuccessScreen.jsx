@@ -4,10 +4,10 @@ const SuccessScreen = ({ fromCity, toCity, phone, onBack }) => {
       <div className="success-card">
         <div className="success-icon">✅</div>
 
-        <h2 className="success-title">Заявка қабул қилинди!</h2>
+        <h2 className="success-title">Заявка қабул қилинды!</h2>
 
         <p className="success-message">
-          Сиз билан <strong>5 дақиқа ичида</strong> боғланишади
+          Сиз бенен <strong>5 минут ишинде</strong> байланисады
         </p>
 
         <div className="success-details">
@@ -22,7 +22,7 @@ const SuccessScreen = ({ fromCity, toCity, phone, onBack }) => {
         </div>
 
         <button className="success-back" onClick={onBack}>
-          🏠 Бош саҳифага
+          🏠 Артка
         </button>
       </div>
     </div>
