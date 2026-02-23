@@ -11,6 +11,8 @@ import {
   submitBooking,
 } from './supabase';
 import './styles.css';
+const ROUTES_CACHE_KEY = 'routes_cache_v2';
+const CACHE_TTL = 1000 * 60 * 60 * 12;
 
 function App() {
   const [routes, setRoutes] = useState([]);
@@ -57,10 +59,6 @@ function App() {
   }, [screen]);
 
   useEffect(() => { loadRoutes(); }, []);
-
-  const ROUTES_CACHE_KEY = 'routes_cache_v2';
-  const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 12;
-  const VEHICLES_CACHE_TTL = 1000 * 60 * 60 * 12;
 
   const loadRoutes = async () => {
     try {
