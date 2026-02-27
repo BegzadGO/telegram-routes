@@ -8,19 +8,21 @@ import './styles.css';
 
 const ROUTES_CACHE_KEY = 'routes_cache_v2';
 const DELIVERY_CACHE_KEY = 'delivery_cache_v2';
-const CACHE_TTL = 1000 * 60 * 60 * 12; // 12 часов
+const CACHE_TTL = 1000 * 60 * 30; // ✅ ИСПРАВЛЕНО: 30 минут (было 12 часов)
 
 function App() {
   const [routes, setRoutes] = useState([]);
   const [deliveryVehicles, setDeliveryVehicles] = useState([]);
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState(null);
+  const [deliveryLoaded, setDeliveryLoaded] = useState(false); // ✅ флаг загрузки
   const [loading, setLoading] = useState(true);
   const [splash, setSplash] = useState(true);
   const [error, setError] = useState(null);
   const [selectedRoute, setSelectedRoute] = useState({ fromCity: '', toCity: '' });
   const [screen, setScreen] = useState('routes');
   const [bookingLoading, setBookingLoading] = useState(false);
+  const [bookingError, setBookingError] = useState(''); // ✅ ИСПРАВЛЕНО: вместо alert()
   const [bookingPhone, setBookingPhone] = useState('');
 
   // Splash экран — 1.5 секунды
@@ -43,10 +45,13 @@ function App() {
   // Загружаем маршруты при запуске
   useEffect(() => { loadRoutes(); }, []);
 
-  // Загружаем доставку при первом переходе на этот экран
+  // ✅ ИСПРАВЛЕНО: загружаем доставку при первом визите на экран
+  // deliveryLoaded предотвращает повторную загрузку после ошибки
   useEffect(() => {
-    if (screen === 'delivery' && deliveryVehicles.length === 0) loadDelivery();
-  }, [screen]);
+    if (screen === 'delivery' && !deliveryLoaded) {
+      loadDelivery();
+    }
+  }, [screen, deliveryLoaded]);
 
   const loadRoutes = async () => {
     try {
@@ -97,15 +102,18 @@ function App() {
         const parsed = JSON.parse(cached);
         if (Date.now() - parsed.timestamp < CACHE_TTL) {
           setDeliveryVehicles(parsed.data);
+          setDeliveryLoaded(true);
           return;
         }
       }
 
       const data = await fetchDeliveryVehicles();
       setDeliveryVehicles(data);
+      setDeliveryLoaded(true);
       localStorage.setItem(DELIVERY_CACHE_KEY, JSON.stringify({ timestamp: Date.now(), data }));
     } catch (e) {
-      setDeliveryError(e.message || 'Juk mashinlarni yuklab bo\'lmadi');
+      setDeliveryError(e.message || "Juk mashinlarni yuklab bo'lmadi");
+      // Не ставим deliveryLoaded=true, чтобы кнопка retry работала
     } finally {
       setDeliveryLoading(false);
     }
@@ -113,6 +121,7 @@ function App() {
 
   const handleSubmitBooking = async ({ phone, tripType, passengers }) => {
     setBookingLoading(true);
+    setBookingError(''); // сбрасываем предыдущую ошибку
     try {
       const tg = window.Telegram?.WebApp;
       await submitBooking({
@@ -127,14 +136,13 @@ function App() {
       setBookingPhone(phone);
       setScreen('success');
 
-      // После успешной отправки убираем предупреждение о закрытии
       if (window.Telegram?.WebApp) {
         window.Telegram.WebApp.disableClosingConfirmation();
         window.Telegram.WebApp.HapticFeedback?.notificationOccurred('success');
       }
     } catch (err) {
-      alert('Хато юз берди. Қайта уриниб кўринг.');
-      console.error(err);
+      // ✅ ИСПРАВЛЕНО: показываем ошибку внутри формы, не через alert()
+      setBookingError(err.message || 'Хато юз берди. Қайта уриниб кўринг.');
     } finally {
       setBookingLoading(false);
     }
@@ -142,7 +150,6 @@ function App() {
 
   const handleBackFromSuccess = () => {
     setScreen('routes');
-    // Возвращаем предупреждение о закрытии
     window.Telegram?.WebApp?.enableClosingConfirmation();
   };
 
@@ -197,8 +204,12 @@ function App() {
           fromCity={selectedRoute.fromCity}
           toCity={selectedRoute.toCity}
           onSubmit={handleSubmitBooking}
-          onBack={() => setScreen('routes')}
+          onBack={() => {
+            setScreen('routes');
+            setBookingError('');
+          }}
           loading={bookingLoading}
+          submitError={bookingError} // ✅ передаём ошибку в форму
         />
       )}
 
@@ -220,6 +231,10 @@ function App() {
             vehicles={deliveryVehicles}
             loading={deliveryLoading}
             error={deliveryError}
+            onRetry={() => {
+              setDeliveryLoaded(false);
+              loadDelivery();
+            }}
             fromCity="Jetkiziw"
             toCity=""
           />
