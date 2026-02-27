@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
-const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
+// ✅ Добавлен проп submitError — ошибка отправки от App.jsx (вместо alert)
+const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading, submitError }) => {
   const [phone, setPhone] = useState('');
   const [phoneError, setPhoneError] = useState('');
   const [tripType, setTripType] = useState(''); // 'passenger' | 'pochta'
@@ -20,12 +21,10 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
   };
 
   const handleSubmit = () => {
-    // Проверяем тип поездки
     if (!tripType) {
       setTypeError('Йўловчи ёки Почтани танланг');
       return;
     }
-    // Проверяем телефон
     if (!phone.trim()) {
       setPhoneError('Телефон рақамини киритинг');
       return;
@@ -35,7 +34,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
       setPhoneError('Телефон рақами камида 9 рақамдан иборат бўлиши керак');
       return;
     }
-    if (digits.length > 13) {
+    if (digits.length > 15) {
       setPhoneError('Телефон рақами жуда узун');
       return;
     }
@@ -87,7 +86,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
           {typeError && <div className="booking-error">{typeError}</div>}
         </div>
 
-        {/* Количество пассажиров — только если выбрано "Йўловчи" */}
+        {/* Количество пассажиров */}
         {tripType === 'passenger' && (
           <div className="booking-field">
             <label className="booking-label">Йўловчилар сони</label>
@@ -122,6 +121,13 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
           />
           {phoneError && <div className="booking-error">{phoneError}</div>}
         </div>
+
+        {/* ✅ ИСПРАВЛЕНО: ошибка отправки показывается здесь, а не через alert() */}
+        {submitError && (
+          <div className="booking-error booking-error--submit">
+            ⚠️ {submitError}
+          </div>
+        )}
 
         <button
           className="booking-submit"
