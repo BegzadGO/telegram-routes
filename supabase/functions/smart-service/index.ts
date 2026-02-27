@@ -5,15 +5,13 @@ const BOT_TOKEN = Deno.env.get("BOT_TOKEN") ?? "";
 const MINI_APP_URL = Deno.env.get("MINI_APP_URL") ?? "https://telegram-routes.vercel.app/";
 const WEBHOOK_SECRET = Deno.env.get("WEBHOOK_SECRET") ?? "";
 
-// Supabase клиент с правами сервера (для чтения/обновления заявок)
 const supabase = createClient(
   Deno.env.get("SUPABASE_URL") ?? "",
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
 );
 
 serve(async (req) => {
-  // ✅ ЗАЩИТА: Проверяем секретный токен от Telegram
-  // Без этого кто угодно мог слать фейковые запросы
+  // Проверяем секретный токен — без него никто не может вызвать функцию
   const secretToken = req.headers.get("X-Telegram-Bot-Api-Secret-Token");
   if (!WEBHOOK_SECRET || secretToken !== WEBHOOK_SECRET) {
     return new Response("Unauthorized", { status: 401 });
@@ -26,36 +24,30 @@ serve(async (req) => {
     return new Response("Bad Request", { status: 400 });
   }
 
-  // ──────────────────────────────────────────────────
-  // ВОДИТЕЛЬ НАЖАЛ "✅ OLISH"
-  // ──────────────────────────────────────────────────
+  // ── ВОДИТЕЛЬ НАЖАЛ "✅ OLISH" ──────────────────────────────────
   if (update.callback_query) {
     const query = update.callback_query;
 
     if (query.data?.startsWith("take|")) {
-      // ✅ ИСПРАВЛЕНО: получаем ID заявки, а не телефон
-      const bookingId = query.data.split("|")[1];
+      const [, phone, fromCity, toCity] = query.data.split("|");
 
       const driver = query.from.username
         ? `@${query.from.username}`
         : query.from.first_name || "Haydovchi";
 
-      const driverTelegramId = String(query.from.id);
-
       try {
-        // ✅ ЗАЩИТА ОТ ДВОЙНОГО ПРИНЯТИЯ:
-        // Обновляем статус ТОЛЬКО если заявка ещё "new"
-        // Если два водителя нажали одновременно — только первый успеет
+        // Защита от двойного принятия:
+        // UPDATE только если status = 'new' — если уже взята, ничего не изменится
         const { data: updated, error: updateError } = await supabase
           .from("bookings")
           .update({
             status: "taken",
             taken_by: driver,
-            taken_by_telegram_id: driverTelegramId,
+            taken_by_telegram_id: String(query.from.id),
           })
-          .eq("id", bookingId)
-          .eq("status", "new") // ← ключевое условие!
-          .select("phone, from_city, to_city")
+          .eq("phone", phone)
+          .eq("status", "new")
+          .select("id")
           .single();
 
         if (updateError || !updated) {
@@ -72,8 +64,8 @@ serve(async (req) => {
           return new Response("ok");
         }
 
-        // Заявка успешно взята — редактируем сообщение в группе
-        const editRes = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
+        // Успешно взял — редактируем сообщение в группе
+        await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/editMessageText`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -81,30 +73,24 @@ serve(async (req) => {
             message_id: query.message.message_id,
             text:
               `✅ Buyurtma olindi!\n\n` +
-              `📍 Marshrut: ${updated.from_city} → ${updated.to_city}\n` +
+              `📍 Marshrut: ${fromCity} → ${toCity}\n` +
               `🚕 Haydovchi: ${driver}`,
           }),
         });
 
-        const editJson = await editRes.json();
-        if (!editJson.ok) {
-          console.error("editMessageText error:", editJson.description);
-        }
-
-        // Показываем водителю номер телефона клиента
+        // Показываем водителю номер телефона
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             callback_query_id: query.id,
-            text: `✅ Buyurtma sizga biriktirildi!\n📞 ${updated.phone}`,
+            text: `✅ Buyurtma sizga biriktirildi!\n📞 ${phone}`,
             show_alert: true,
           }),
         });
 
       } catch (err) {
         console.error("Error handling take action:", err);
-        // Сообщаем водителю об ошибке
         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/answerCallbackQuery`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -120,9 +106,7 @@ serve(async (req) => {
     return new Response("ok");
   }
 
-  // ──────────────────────────────────────────────────
-  // БОТА ДОБАВИЛИ В ГРУППУ
-  // ──────────────────────────────────────────────────
+  // ── БОТА ДОБАВИЛИ В ГРУППУ ─────────────────────────────────────
   if (update.my_chat_member) {
     const chat = update.my_chat_member.chat;
     const newStatus = update.my_chat_member.new_chat_member?.status;
@@ -134,9 +118,7 @@ serve(async (req) => {
     return new Response("ok");
   }
 
-  // ──────────────────────────────────────────────────
-  // ВХОДЯЩЕЕ СООБЩЕНИЕ
-  // ──────────────────────────────────────────────────
+  // ── ВХОДЯЩЕЕ СООБЩЕНИЕ ─────────────────────────────────────────
   if (!update.message) {
     return new Response("ok");
   }
@@ -155,9 +137,7 @@ serve(async (req) => {
   return new Response("ok");
 });
 
-// ──────────────────────────────────────────────────
-// ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-// ──────────────────────────────────────────────────
+// ── ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ────────────────────────────────────
 
 async function sendPrivateMessage(chatId: number) {
   await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -197,5 +177,5 @@ async function sendGroupMessage(chatId: number) {
       },
     }),
   });
-}
+      }
 
