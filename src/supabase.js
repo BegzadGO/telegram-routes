@@ -57,38 +57,6 @@ export const fetchRoutes = async () => {
   });
 };
 
-/**
- * Fetch vehicles for a specific route with driver information
- * @param {string} routeId - The route ID to filter vehicles
- * @returns {Promise<Array>} Array of vehicle objects with driver data
- */
-export const fetchVehiclesByRoute = async (routeId) => {
-  return fetchWithRetry(async () => {
-    const { data, error } = await supabase
-      .from('vehicles')
-      .select(`
-        id,
-        vehicle_name,
-        driver:driver_id (
-          name,
-          phone
-        )
-      `)
-      .eq('route_id', routeId)
-.limit(50);
-
-    if (error) throw error;
-
-    // Transform the data to flatten the driver object
-    return (data || []).map(vehicle => ({
-      id: vehicle.id,
-      vehicle_name: vehicle.vehicle_name,
-      driver_name: vehicle.driver?.name || 'N/A',
-      driver_phone: vehicle.driver?.phone || null,
-    }));
-  });
-};
-
 export const fetchDeliveryVehicles = async () => {
   return fetchWithRetry(async () => {
     const { data, error } = await supabase
