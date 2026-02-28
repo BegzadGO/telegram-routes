@@ -107,7 +107,7 @@ function App() {
     } finally { setBookingLoading(false); }
   };
 
-  if (loading) return (
+  if (loading || splash) return (
     <div className="loading-screen">
       <div className="loading-card">
         <div className="loading-logo">🚕 Taksi <strong>95</strong></div>
