@@ -88,22 +88,6 @@ export const fetchVehiclesByRoute = async (routeId) => {
     }));
   });
 };
-/**
- * Fetch route places (parking, notes, locations) for a route
- * @param {string} routeId
- */
-export const fetchRoutePlaces = async (routeId) => {
-  return fetchWithRetry(async () => {
-    const { data, error } = await supabase
-      .from('route_places')
-      .select('id, title, note, address, lat, lng')
-.eq('route_id', routeId)
-.limit(20);
-
-    if (error) throw error;
-    return data || [];
-  });
-};
 
 export const fetchDeliveryVehicles = async () => {
   return fetchWithRetry(async () => {
