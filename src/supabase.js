@@ -155,29 +155,6 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
     `👤 *Фойдаланувчи:* ${userInfo}\n` +
     `🕐 *Вақт:* ${new Date().toLocaleString('ru-RU')}`;
 
-  const hasToken = botToken && !botToken.includes('YOUR_BOT_TOKEN');
-  const hasChatId = ownerChatId && !ownerChatId.includes('YOUR_CHAT_ID');
-
-  if (hasToken && hasChatId) {
-    try {
-      const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: ownerChatId,
-          text: message,
-          parse_mode: 'Markdown',
-        }),
-      });
-      if (!tgRes.ok) {
-        const err = await tgRes.json().catch(() => ({}));
-        console.warn('Telegram API error:', err);
-      }
-    } catch (e) {
-      console.warn('Telegram fetch error:', e);
-    }
-  }
-
   try {
     await supabase.from('bookings').insert([{
       phone,
@@ -189,7 +166,21 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
       created_at: new Date().toISOString(),
     }]);
   } catch (e) {
-    console.warn('Supabase insert skipped:', e);
+    console.warn('Supabase insert error:', e);
+  }
+
+  try {
+    await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        chat_id: ownerChatId,
+        text: message,
+        parse_mode: 'Markdown',
+      }),
+    });
+  } catch (e) {
+    console.warn('Telegram error:', e);
   }
 
   return true;
