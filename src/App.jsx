@@ -12,6 +12,9 @@ import {
 } from './supabase';
 import './styles.css';
 
+const ROUTES_CACHE_KEY = 'routes_cache_v2';
+const CACHE_TTL = 1000 * 60 * 60 * 12;
+
 function App() {
   const [routes, setRoutes] = useState([]);
   const [vehicles, setVehicles] = useState([]);
@@ -58,17 +61,13 @@ function App() {
 
   useEffect(() => { loadRoutes(); }, []);
 
-  const ROUTES_CACHE_KEY = 'routes_cache_v2';
-  const ROUTES_CACHE_TTL = 1000 * 60 * 60 * 12;
-  const VEHICLES_CACHE_TTL = 1000 * 60 * 60 * 12;
-
   const loadRoutes = async () => {
     try {
       setLoading(true); setError(null);
       const cached = localStorage.getItem(ROUTES_CACHE_KEY);
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Date.now() - parsed.timestamp < ROUTES_CACHE_TTL) {
+        if (Date.now() - parsed.timestamp < CACHE_TTL) {
           setRoutes(parsed.data); setLoading(false); return;
         }
       }
@@ -116,27 +115,30 @@ function App() {
     const cached = localStorage.getItem(`vehicles_cache_${routeId}`);
     if (cached) {
       const parsed = JSON.parse(cached);
-      if (Date.now() - parsed.timestamp < VEHICLES_CACHE_TTL) {
+      if (Date.now() - parsed.timestamp < CACHE_TTL) {
         setSelectedRoute({ fromCity, toCity }); setVehicles(parsed.data); setScreen('vehicles'); return;
       }
     }
     try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
-      const data = await fetchVehiclesByRoute(routeId);
+      const placesCacheKey = `route_places_${routeId}`;
+      const cachedPlaces = localStorage.getItem(placesCacheKey);
+      const needPlaces = !cachedPlaces || (Date.now() - JSON.parse(cachedPlaces).timestamp >= CACHE_TTL);
+
+      const [data, places] = await Promise.all([
+        fetchVehiclesByRoute(routeId),
+        needPlaces ? fetchRoutePlaces(routeId).catch(() => []) : Promise.resolve(null),
+      ]);
+
       const shuffled = shuffleArray(data);
       setVehicles(shuffled);
       localStorage.setItem(`vehicles_cache_${routeId}`, JSON.stringify({ timestamp: Date.now(), data: shuffled }));
-      const placesCacheKey = `route_places_${routeId}`;
-      const cachedPlaces = localStorage.getItem(placesCacheKey);
-      if (cachedPlaces) {
-        const parsed = JSON.parse(cachedPlaces);
-        if (Date.now() - parsed.timestamp < ROUTES_CACHE_TTL) setRoutePlaces(parsed.data);
+
+      if (places !== null) {
+        setRoutePlaces(places || []);
+        localStorage.setItem(placesCacheKey, JSON.stringify({ timestamp: Date.now(), data: places || [] }));
       } else {
-        try {
-          const places = await fetchRoutePlaces(routeId);
-          setRoutePlaces(places || []);
-          localStorage.setItem(placesCacheKey, JSON.stringify({ timestamp: Date.now(), data: places || [] }));
-        } catch (e) { setRoutePlaces([]); }
+        setRoutePlaces(JSON.parse(cachedPlaces).data || []);
       }
       setScreen('vehicles');
       if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
