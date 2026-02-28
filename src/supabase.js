@@ -149,11 +149,11 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
     : 'Номаълум';
 
   const message =
-    `🔔 *Янги заявка!*\n\n` +
-    `📍 *Маршрут:* ${fromCity} → ${toCity}\n` +
-    `📞 *Телефон:* \`${phone}\`\n` +
-    `👤 *Фойдаланувчи:* ${userInfo}\n` +
-    `🕐 *Вақт:* ${new Date().toLocaleString('ru-RU')}`;
+    `🔔 Янги заявка!\n\n` +
+    `📍 Маршрут: ${fromCity} → ${toCity}\n` +
+    `📞 Телефон: ${phone}\n` +
+    `👤 Фойдаланувчи: ${userInfo}\n` +
+    `🕐 Вақт: ${new Date().toLocaleString('ru-RU')}`;
 
   try {
     await supabase.from('bookings').insert([{
@@ -176,7 +176,6 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
       body: JSON.stringify({
         chat_id: ownerChatId,
         text: message,
-        parse_mode: 'Markdown',
       }),
     });
   } catch (e) {
