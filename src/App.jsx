@@ -127,7 +127,10 @@ function App() {
               <span className="title-sub">Jonelisti tañlañ</span>
             </h1>
           </header>
-          <RouteSelector routes={routes} onSearch={handleSearch} loading={vehiclesLoading} />
+          <RouteSelector routes={routes} onSearch={(routeId, fromCity, toCity) => {
+            setSelectedRoute({ fromCity, toCity });
+            setScreen('booking');
+          }} loading={false} />
         </>
       )}
 
