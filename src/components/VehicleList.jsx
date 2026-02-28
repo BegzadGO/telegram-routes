@@ -10,9 +10,6 @@ const VehicleList = ({
   error,
   fromCity,
   toCity,
-  onRefresh,
-  favorites = [],
-  onToggleFavorite,
 }) => {
   // Loading state
   if (loading) {
