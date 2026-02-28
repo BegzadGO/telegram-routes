@@ -6,7 +6,6 @@ import VehicleCard from './VehicleCard';
  */
 const VehicleList = ({
   vehicles,
-  routePlaces = [],
   loading,
   error,
   fromCity,
@@ -43,46 +42,6 @@ const VehicleList = ({
   // Display vehicles
   return (
     <div className="vehicle-list">
-      {routePlaces.length > 0 && (
-  <div className="route-places">
-    <h3 className="route-places-title">
-      📍 Gazeller bar
-    </h3>
-
-    {routePlaces.map(place => (
-      <div key={place.id} className="route-place-card">
-        {place.title && (
-          <div className="route-place-title">
-            📍 {place.title}
-          </div>
-        )}
-
-        {place.note && (
-          <div className="route-place-note">
-            {place.note}
-          </div>
-        )}
-
-        {place.address && (
-          <div className="route-place-address">
-            🏠 {place.address}
-          </div>
-        )}
-
-        {place.lat && place.lng && (
-          <a
-            href={`https://maps.google.com/?q=${place.lat},${place.lng}`}
-            target="_blank"
-            rel="noreferrer"
-            className="route-place-map-link"
-          >
-            📍 Kartada koriw →
-          </a>
-        )}
-      </div>
-    ))}
-  </div>
-)}
       {vehicles.length === 0 && (
   <div className="empty-state">
     <div className="empty-state-icon">🚗</div>
