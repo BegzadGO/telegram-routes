@@ -152,7 +152,7 @@ function App() {
       {screen === 'delivery' && (
         <>
           <header className="vehicles-header"><h1 className="app-title">Juk Mashinlar</h1></header>
-          <VehicleList vehicles={deliveryVehicles} loading={deliveryLoading} error={deliveryError} fromCity="Jetkiziw" toCity="" favorites={favorites} onToggleFavorite={toggleFavorite} />
+          <VehicleList vehicles={deliveryVehicles} loading={deliveryLoading} error={deliveryError} fromCity="Jetkiziw" toCity="" />
         </>
       )}
 
