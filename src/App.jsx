@@ -134,28 +134,10 @@ function App() {
         </>
       )}
 
-      {screen === 'vehicles' && (
-        <>
-          <header className="vehicles-header">
-            <button className="back-button" onClick={() => setScreen('routes')}>←</button>
-            <h1 className="app-title">{selectedRoute.fromCity} → {selectedRoute.toCity}</h1>
-          </header>
-          <VehicleList
-            vehicles={vehicles} loading={vehiclesLoading} error={vehiclesError}
-            fromCity={selectedRoute.fromCity} toCity={selectedRoute.toCity} onRefresh={reshuffleVehicles}
-            favorites={favorites} onToggleFavorite={toggleFavorite}
-          />
-          <div className="booking-banner">
-            <p className="booking-banner-text">Қайси транспорт бўш? Биз сизга ёрдам берамиз!</p>
-            <button className="booking-banner-btn" onClick={handleOpenBooking}>📋 Заявка қолдириш</button>
-          </div>
-        </>
-      )}
-
       {screen === 'booking' && (
         <BookingForm
           fromCity={selectedRoute.fromCity} toCity={selectedRoute.toCity}
-          onSubmit={handleSubmitBooking} onBack={() => setScreen('vehicles')} loading={bookingLoading}
+          onSubmit={handleSubmitBooking} onBack={() => setScreen('routes')} loading={bookingLoading}
         />
       )}
 
@@ -173,18 +155,10 @@ function App() {
         </>
       )}
 
-      {screen === 'favorites' && (
-        <>
-          <header className="vehicles-header"><h1 className="app-title">Saqlanģanlar</h1></header>
-          <VehicleList vehicles={favorites} loading={false} error={null} fromCity="Избранное" toCity="" onRefresh={null} favorites={favorites} onToggleFavorite={toggleFavorite} />
-        </>
-      )}
-
       {screen !== 'booking' && screen !== 'success' && (
         <div className="bottom-nav">
           <button className={screen === 'routes' ? 'active' : ''} onClick={() => setScreen('routes')}>🧭 Jonelisler</button>
           <button className={screen === 'delivery' ? 'active' : ''} onClick={() => setScreen('delivery')}>📦 Juk mashinlari</button>
-          <button className={screen === 'favorites' ? 'active' : ''} onClick={() => setScreen('favorites')}>❤️ Saqlangan</button>
         </div>
       )}
     </div>
