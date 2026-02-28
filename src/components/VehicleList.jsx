@@ -48,8 +48,8 @@ const VehicleList = ({
     <div className="empty-state-title">Xazirshe taksiler joq</div>
     <div className="empty-state-text">
       {fromCity && toCity 
-        ? `No vehicles found for route ${fromCity} → ${toCity}`
-        : 'Select a route to view available vehicles'
+        ? `${fromCity} → ${toCity} bağıtı boyınsha taksi tabılmadı`
+        : 'Jonelisti tañlañ'
       }
     </div>
   </div>
