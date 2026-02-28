@@ -47,7 +47,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
         <button
           className="booking-submit"
           onClick={handleSubmit}
-          disabled={loading || phone.replace(/\D/g, '').length < 9}
+          disabled={loading || !phone}
         >
           {loading ? (
             <span className="btn-loading">
