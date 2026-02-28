@@ -139,45 +139,28 @@ export const fetchDeliveryVehicles = async () => {
  * Saves to Supabase and sends Telegram notification to bot owner
  */
 export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, telegramUsername }) => {
-  // 1. Save booking to Supabase
-  const { data, error } = await supabase
-    .from('bookings')
-    .insert([
-      {
-        phone,
-        from_city: fromCity,
-        to_city: toCity,
-        telegram_user_id: telegramUserId || null,
-        telegram_username: telegramUsername || null,
-        status: 'new',
-        created_at: new Date().toISOString(),
-      },
-    ])
-    .select()
-    .single();
-
-  if (error) throw error;
-
-  // 2. Send Telegram notification via bot
   const botToken = import.meta.env.VITE_BOT_TOKEN;
   const ownerChatId = import.meta.env.VITE_OWNER_CHAT_ID;
 
-  if (botToken && ownerChatId) {
-    const userInfo = telegramUsername
-      ? `@${telegramUsername}`
-      : telegramUserId
-      ? `ID: ${telegramUserId}`
-      : 'Telegram орқали';
+  const userInfo = telegramUsername
+    ? `@${telegramUsername}`
+    : telegramUserId
+    ? `ID: ${telegramUserId}`
+    : 'Номаълум';
 
-    const message =
-      `🔔 *Янги заявка!*\n\n` +
-      `📍 *Маршрут:* ${fromCity} → ${toCity}\n` +
-      `📞 *Телефон:* \`${phone}\`\n` +
-      `👤 *Фойдаланувчи:* ${userInfo}\n` +
-      `🕐 *Вақт:* ${new Date().toLocaleString('uz-UZ')}`;
+  const message =
+    `🔔 *Янги заявка!*\n\n` +
+    `📍 *Маршрут:* ${fromCity} → ${toCity}\n` +
+    `📞 *Телефон:* \`${phone}\`\n` +
+    `👤 *Фойдаланувчи:* ${userInfo}\n` +
+    `🕐 *Вақт:* ${new Date().toLocaleString('ru-RU')}`;
 
+  const hasToken = botToken && !botToken.includes('YOUR_BOT_TOKEN');
+  const hasChatId = ownerChatId && !ownerChatId.includes('YOUR_CHAT_ID');
+
+  if (hasToken && hasChatId) {
     try {
-      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      const tgRes = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -186,11 +169,28 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
           parse_mode: 'Markdown',
         }),
       });
+      if (!tgRes.ok) {
+        const err = await tgRes.json().catch(() => ({}));
+        console.warn('Telegram API error:', err);
+      }
     } catch (e) {
-      // Notification failed but booking was saved — that's OK
-      console.warn('Telegram notification failed:', e);
+      console.warn('Telegram fetch error:', e);
     }
   }
 
-  return data;
+  try {
+    await supabase.from('bookings').insert([{
+      phone,
+      from_city: fromCity,
+      to_city: toCity,
+      telegram_user_id: telegramUserId || null,
+      telegram_username: telegramUsername || null,
+      status: 'new',
+      created_at: new Date().toISOString(),
+    }]);
+  } catch (e) {
+    console.warn('Supabase insert skipped:', e);
+  }
+
+  return true;
 };
