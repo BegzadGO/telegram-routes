@@ -67,7 +67,7 @@ function App() {
       const cached = localStorage.getItem(ROUTES_CACHE_KEY);
       if (cached) {
         const parsed = JSON.parse(cached);
-        if (Date.now() - parsed.timestamp < ROUTES_CACHE_TTL) {
+        if (Date.now() - parsed.timestamp < CACHE_TTL) {
           setRoutes(parsed.data); setLoading(false); return;
         }
       }
@@ -115,7 +115,7 @@ function App() {
     const cached = localStorage.getItem(`vehicles_cache_${routeId}`);
     if (cached) {
       const parsed = JSON.parse(cached);
-      if (Date.now() - parsed.timestamp < VEHICLES_CACHE_TTL) {
+      if (Date.now() - parsed.timestamp < CACHE_TTL) {
         setSelectedRoute({ fromCity, toCity }); setVehicles(parsed.data); setScreen('vehicles'); return;
       }
     }
