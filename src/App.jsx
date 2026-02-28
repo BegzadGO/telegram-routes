@@ -195,7 +195,7 @@ function App() {
             <h1 className="app-title">{selectedRoute.fromCity} → {selectedRoute.toCity}</h1>
           </header>
           <VehicleList
-            vehicles={vehicles} routePlaces={routePlaces} loading={vehiclesLoading} error={vehiclesError}
+            vehicles={vehicles} loading={vehiclesLoading} error={vehiclesError}
             fromCity={selectedRoute.fromCity} toCity={selectedRoute.toCity} onRefresh={reshuffleVehicles}
             favorites={favorites} onToggleFavorite={toggleFavorite}
           />
