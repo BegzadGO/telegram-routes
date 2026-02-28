@@ -19,6 +19,7 @@ function App() {
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [splash, setSplash] = useState(true);
   const [error, setError] = useState(null);
 
   const [selectedRoute, setSelectedRoute] = useState({ fromCity: '', toCity: '' });
@@ -26,6 +27,11 @@ function App() {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [bookingPhone, setBookingPhone] = useState('');
 
+  useEffect(() => {
+    const timer = setTimeout(() => setSplash(false), 1500);
+    return () => clearTimeout(timer);
+  }, []);
+  
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       const tg = window.Telegram.WebApp;
