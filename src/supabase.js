@@ -40,9 +40,6 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     persistSession: false,
     autoRefreshToken: false,
   },
-  realtime: {
-    enabled: false, // Disable realtime as we don't need subscriptions
-  },
 });
 
 /**
