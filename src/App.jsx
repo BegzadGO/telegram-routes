@@ -6,7 +6,6 @@ import SuccessScreen from './components/SuccessScreen';
 import {
   fetchRoutes,
   fetchVehiclesByRoute,
-  fetchRoutePlaces,
   fetchDeliveryVehicles,
   submitBooking,
 } from './supabase';
@@ -21,7 +20,6 @@ function App() {
   const [deliveryVehicles, setDeliveryVehicles] = useState([]);
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState(null);
-  const [routePlaces, setRoutePlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [vehiclesError, setVehiclesError] = useState(null);
@@ -121,25 +119,13 @@ function App() {
     }
     try {
       setVehiclesLoading(true); setVehiclesError(null); setSelectedRoute({ fromCity, toCity });
-      const placesCacheKey = `route_places_${routeId}`;
-      const cachedPlaces = localStorage.getItem(placesCacheKey);
-      const needPlaces = !cachedPlaces || (Date.now() - JSON.parse(cachedPlaces).timestamp >= CACHE_TTL);
-
-      const [data, places] = await Promise.all([
-        fetchVehiclesByRoute(routeId),
-        needPlaces ? fetchRoutePlaces(routeId).catch(() => []) : Promise.resolve(null),
-      ]);
+      setRoutePlaces([]);
+      const data = await fetchVehiclesByRoute(routeId);
 
       const shuffled = shuffleArray(data);
       setVehicles(shuffled);
       localStorage.setItem(`vehicles_cache_${routeId}`, JSON.stringify({ timestamp: Date.now(), data: shuffled }));
 
-      if (places !== null) {
-        setRoutePlaces(places || []);
-        localStorage.setItem(placesCacheKey, JSON.stringify({ timestamp: Date.now(), data: places || [] }));
-      } else {
-        setRoutePlaces(JSON.parse(cachedPlaces).data || []);
-      }
       setScreen('vehicles');
       if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.impactOccurred('medium');
     } catch (err) { setVehiclesError(err.message || 'Failed to load vehicles'); }
