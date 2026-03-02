@@ -115,61 +115,41 @@ export const fetchDeliveryVehicles = async () => {
   });
 };
 
-/**
- * Submit a booking request
- * Saves to Supabase and sends Telegram notification to bot owner
- */
+const LAST_BOOKING_KEY = 'last_booking_ts';
+const COOLDOWN_MS = 60_000; // 60 секунд между заявками
+
 export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, telegramUsername }) => {
-  const botToken = import.meta.env.VITE_BOT_TOKEN;
-  const ownerChatId = import.meta.env.VITE_OWNER_CHAT_ID;
+  // Защита от спама: проверяем кулдаун
+  const lastTs = localStorage.getItem(LAST_BOOKING_KEY);
+  if (lastTs) {
+    const elapsed = Date.now() - Number(lastTs);
+    if (elapsed < COOLDOWN_MS) {
+      const secondsLeft = Math.ceil((COOLDOWN_MS - elapsed) / 1000);
+      throw new Error(`Iltimos, ${secondsLeft} soniya kuting`);
+    }
+  }
 
-  const userInfo = telegramUsername
-    ? `@${telegramUsername}`
-    : telegramUserId
-    ? `ID: ${telegramUserId}`
-    : 'Номаълум';
+  const edgeUrl = import.meta.env.VITE_EDGE_FUNCTION_URL;
 
-  const message =
-    `🔔 Янги заявка!\n\n` +
-    `📍 Маршрут: ${fromCity} → ${toCity}\n` +
-    `📞 Телефон: ${phone}\n` +
-    `👤 Фойдаланувчи: ${userInfo}\n` +
-    `🕐 Вақт: ${new Date().toLocaleString('ru-RU')}`;
-
-  const driverGroupId = import.meta.env.VITE_DRIVER_GROUP_ID;
-
-  await Promise.allSettled([
-    supabase.from('bookings').insert([{
+  const res = await fetch(edgeUrl, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      action: 'booking',
       phone,
-      from_city: fromCity,
-      to_city: toCity,
-      telegram_user_id: telegramUserId || null,
-      telegram_username: telegramUsername || null,
-      status: 'new',
-      created_at: new Date().toISOString(),
-    }]),
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: ownerChatId,
-        text: message,
-      }),
+      fromCity,
+      toCity,
+      telegramUserId: telegramUserId || null,
+      telegramUsername: telegramUsername || null,
     }),
-    driverGroupId ? fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        chat_id: driverGroupId,
-        text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n⏳ Status: kutilmoqda...`,
-        reply_markup: {
-          inline_keyboard: [[
-            { text: "✅ Olish", callback_data: `take|${phone}|${fromCity}|${toCity}` }
-          ]]
-        }
-      }),
-    }) : Promise.resolve(),
-  ]);
+  });
 
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || 'Server xatoligi');
+  }
+
+  // Сохраняем время успешной заявки
+  localStorage.setItem(LAST_BOOKING_KEY, String(Date.now()));
   return true;
 };
