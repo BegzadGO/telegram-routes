@@ -117,7 +117,7 @@ export const fetchDeliveryVehicles = async () => {
 
 const COOLDOWN_MS = 10_000; // 10 секунд — только защита от двойного клика
 
-export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, telegramUsername }) => {
+export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, telegramUsername, bookingType = 'taxi', passengers = null }) => {
   const lastKey = `last_booking_${fromCity}_${toCity}`;
   const lastTs = localStorage.getItem(lastKey);
   if (lastTs && Date.now() - Number(lastTs) < COOLDOWN_MS) {
@@ -136,6 +136,8 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
       toCity,
       telegramUserId: telegramUserId || null,
       telegramUsername: telegramUsername || null,
+      bookingType,
+      passengers,
     }),
   });
 
