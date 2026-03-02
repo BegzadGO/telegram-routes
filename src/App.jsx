@@ -87,17 +87,19 @@ function App() {
     finally { setDeliveryLoading(false); }
   };
 
-  const handleSubmitBooking = async (phone) => {
+  const handleSubmitBooking = async (phone, bookingType, passengers) => {
     setBookingLoading(true);
     try {
       const tg = window.Telegram?.WebApp;
       await submitBooking({
-        phone,
-        fromCity: selectedRoute.fromCity,
-        toCity: selectedRoute.toCity,
-        telegramUserId: tg?.initDataUnsafe?.user?.id || null,
-        telegramUsername: tg?.initDataUnsafe?.user?.username || null,
-      });
+  phone,
+  fromCity: selectedRoute.fromCity,
+  toCity: selectedRoute.toCity,
+  telegramUserId: tg?.initDataUnsafe?.user?.id || null,
+  telegramUsername: tg?.initDataUnsafe?.user?.username || null,
+  bookingType,
+  passengers,
+});
       setBookingPhone(phone);
       setScreen('success');
       if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
