@@ -3,6 +3,8 @@ import { useState } from 'react';
 const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
   const [phone, setPhone] = useState('');
   const [error, setError] = useState('');
+  const [bookingType, setBookingType] = useState('taxi');
+  const [passengers, setPassengers] = useState(1);
 
   const handlePhoneChange = (e) => {
     let value = e.target.value.replace(/[^\d+\s\-()]/g, '');
@@ -16,7 +18,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
       setError('Телефон номерини тўғри киритинг');
       return;
     }
-    onSubmit(phone);
+    onSubmit(phone, bookingType, bookingType === 'taxi' ? passengers : null);
   };
 
   return (
@@ -31,6 +33,47 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
           Телефон рақамингизни киритинг, биз сиз билан 5 дақиқа ичида боғланамиз
         </p>
 
+        {/* Тип заявки */}
+        <div className="booking-type-toggle">
+          <button
+            className={`type-btn ${bookingType === 'taxi' ? 'active' : ''}`}
+            onClick={() => setBookingType('taxi')}
+            type="button"
+          >
+            🚕 Taksi
+          </button>
+          <button
+            className={`type-btn ${bookingType === 'cargo' ? 'active' : ''}`}
+            onClick={() => setBookingType('cargo')}
+            type="button"
+          >
+            📦 Pochta / Juk
+          </button>
+        </div>
+
+        {/* Пассажиры — только для такси */}
+        {bookingType === 'taxi' && (
+          <div className="booking-field">
+            <label className="booking-label">Yo'lovchilar soni</label>
+            <div className="passengers-selector">
+              <button
+                className="passengers-btn"
+                onClick={() => setPassengers(p => Math.max(1, p - 1))}
+                type="button"
+                disabled={passengers <= 1}
+              >−</button>
+              <span className="passengers-count">{passengers}</span>
+              <button
+                className="passengers-btn"
+                onClick={() => setPassengers(p => Math.min(4, p + 1))}
+                type="button"
+                disabled={passengers >= 4}
+              >+</button>
+            </div>
+          </div>
+        )}
+
+        {/* Телефон */}
         <div className="booking-field">
           <label className="booking-label">Телефон рақами</label>
           <input
