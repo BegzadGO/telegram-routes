@@ -135,6 +135,8 @@ async function handleBooking(body: {
       telegram_user_id: telegramUserId || null,
       telegram_username: telegramUsername || null,
       status: "new",
+      booking_type: bookingType,
+passengers: passengers || null,
     }])
     .select("id")
     .single();
@@ -154,12 +156,17 @@ async function handleBooking(body: {
     ? `ID: ${telegramUserId}`
     : "Номаълум";
 
-  const ownerMessage =
-    `🔔 Янги заявка!\n\n` +
-    `📍 Маршрут: ${fromCity} → ${toCity}\n` +
-    `📞 Телефон: ${phone}\n` +
-    `👤 Фойдаланувчи: ${userInfo}\n` +
-    `🕐 Вақт: ${new Date().toLocaleString("ru-RU")}`;
+  const typeLabel = bookingType === 'cargo'
+  ? "📦 Pochta / Juk"
+  : `🚕 Taksi (${passengers} yo'lovchi)`;
+
+const ownerMessage =
+  `🔔 Янги заявка!\n\n` +
+  `📍 Маршрут: ${fromCity} → ${toCity}\n` +
+  `🚗 Тур: ${typeLabel}\n` +
+  `📞 Телефон: ${phone}\n` +
+  `👤 Фойдаланувчи: ${userInfo}\n` +
+  `🕐 Вақт: ${new Date().toLocaleString("ru-RU")}`;
 
   // 2. Уведомления — параллельно, ошибки не критичны
   const notifications: Promise<unknown>[] = [
@@ -177,7 +184,7 @@ async function handleBooking(body: {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           chat_id: DRIVER_GROUP_ID,
-          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n⏳ Status: kutilmoqda...`,
+          text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n🚗 Tur: ${typeLabel}\n⏳ Status: kutilmoqda...`,
           reply_markup: {
             inline_keyboard: [[
               // Только ID заявки — телефон не светим, и укладываемся в 64 байта
