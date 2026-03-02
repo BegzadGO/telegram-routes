@@ -120,8 +120,10 @@ async function handleBooking(body: {
   toCity: string;
   telegramUserId?: number | null;
   telegramUsername?: string | null;
+  bookingType?: string;
+  passengers?: number | null;
 }) {
-  const { phone, fromCity, toCity, telegramUserId, telegramUsername } = body;
+  const { phone, fromCity, toCity, telegramUserId, telegramUsername, bookingType = 'taxi', passengers } = body;
 
   // 1. Сначала INSERT — если упал, возвращаем ошибку клиенту
   const { data: booking, error } = await supabase
