@@ -115,18 +115,13 @@ export const fetchDeliveryVehicles = async () => {
   });
 };
 
-const LAST_BOOKING_KEY = 'last_booking_ts';
-const COOLDOWN_MS = 60_000; // 60 секунд между заявками
+const COOLDOWN_MS = 10_000; // 10 секунд — только защита от двойного клика
 
 export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, telegramUsername }) => {
-  // Защита от спама: проверяем кулдаун
-  const lastTs = localStorage.getItem(LAST_BOOKING_KEY);
-  if (lastTs) {
-    const elapsed = Date.now() - Number(lastTs);
-    if (elapsed < COOLDOWN_MS) {
-      const secondsLeft = Math.ceil((COOLDOWN_MS - elapsed) / 1000);
-      throw new Error(`Iltimos, ${secondsLeft} soniya kuting`);
-    }
+  const lastKey = `last_booking_${fromCity}_${toCity}`;
+  const lastTs = localStorage.getItem(lastKey);
+  if (lastTs && Date.now() - Number(lastTs) < COOLDOWN_MS) {
+    throw new Error(`Buyurtma yuborildi, iltimos kuting...`);
   }
 
   const edgeUrl = import.meta.env.VITE_EDGE_FUNCTION_URL;
@@ -150,6 +145,6 @@ export const submitBooking = async ({ phone, fromCity, toCity, telegramUserId, t
   }
 
   // Сохраняем время успешной заявки
-  localStorage.setItem(LAST_BOOKING_KEY, String(Date.now()));
+  localStorage.setItem(lastKey, String(Date.now()));
   return true;
 };
