@@ -102,7 +102,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
         </button>
 
         <button className="booking-cancel" onClick={onBack}>
-          ← Орқага
+          ← Артқа
         </button>
       </div>
     </div>
