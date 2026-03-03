@@ -28,9 +28,9 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
           📍 {fromCity} → {toCity}
         </div>
 
-        <h2 className="booking-title">Заявка қолдириш</h2>
+        <h2 className="booking-title">Заявка қалдирыу</h2>
         <p className="booking-subtitle">
-          Телефон рақамингизни киритинг, биз сиз билан 5 дақиқа ичида боғланамиз
+          Телефон номериңизды жазын, биз сиз бенен 5 минут ишинде байланисамыз
         </p>
 
         {/* Тип заявки */}
@@ -40,21 +40,21 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
             onClick={() => setBookingType('taxi')}
             type="button"
           >
-            🚕 Taksi
+            🚕 Такси
           </button>
           <button
             className={`type-btn ${bookingType === 'cargo' ? 'active' : ''}`}
             onClick={() => setBookingType('cargo')}
             type="button"
           >
-            📦 Pochta / Juk
+            📦 Почта / Жук
           </button>
         </div>
 
         {/* Пассажиры — только для такси */}
         {bookingType === 'taxi' && (
           <div className="booking-field">
-            <label className="booking-label">Yo'lovchilar soni</label>
+            <label className="booking-label">Жолаушилар сани</label>
             <div className="passengers-selector">
               <button
                 className="passengers-btn"
@@ -75,7 +75,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
 
         {/* Телефон */}
         <div className="booking-field">
-          <label className="booking-label">Телефон рақами</label>
+          <label className="booking-label">Телефон номери</label>
           <input
             className={`booking-input ${error ? 'booking-input--error' : ''}`}
             type="tel"
@@ -97,7 +97,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
               <span></span><span></span><span></span>
             </span>
           ) : (
-            '✅ Заявка юбориш'
+            '✅ Заявка жиберыу'
           )}
         </button>
 
