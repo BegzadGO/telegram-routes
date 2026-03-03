@@ -58,7 +58,7 @@ const VehicleList = ({
       {vehicles.length > 0 && (
   <>
     <h2 className="vehicle-list-title">
-      Таксистке қонирау етиң ({vehicles.length})
+      Қонирау етиң ({vehicles.length})
     </h2>
     <div className="vehicle-grid">
       {vehicles.map(vehicle => (
