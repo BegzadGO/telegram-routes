@@ -41,16 +41,16 @@ if (route) {
 
   return (
   <div className="route-card">
-    <h2 className="route-card-title">🚕 Jonelisti tañlañ</h2>
+    <h2 className="route-card-title">🚕 Жөнелисты таңлаң</h2>
 
     <div className="route-input">
-      <label>Qayerden</label>
+      <label>Қаерден</label>
       <select
         value={fromCity}
         onChange={(e) => setFromCity(e.target.value)}
         disabled={loading}
       >
-        <option value="">Qayerden ketiwñizdi tanlañ</option>
+        <option value="">Қаерден кетыуңизды таңлаң</option>
         {fromCities.map(city => (
           <option key={city} value={city}>{city}</option>
         ))}
@@ -60,13 +60,13 @@ if (route) {
     <div className="route-arrow">↓</div>
 
     <div className="route-input">
-      <label>Qayerge</label>
+      <label>Қаерге</label>
       <select
         value={toCity}
         onChange={(e) => setToCity(e.target.value)}
         disabled={!fromCity || loading}
       >
-        <option value="">Qayerge bariwñizdi tanlañ</option>
+        <option value="">Қаерге барыуңизды таңлаң</option>
         {toCities.map(city => (
           <option key={city} value={city}>{city}</option>
         ))}
@@ -78,7 +78,7 @@ if (route) {
       onClick={handleSearch}
       disabled={!canSearch}
     >
-      {loading ? 'Juklenbekte...' : '🚕 Korsetiw'}
+      {loading ? 'Жукленбекте...' : '🚕 Заявка'}
     </button>
   </div>
 );
