@@ -104,7 +104,7 @@ function App() {
       setScreen('success');
       if (window.Telegram?.WebApp?.HapticFeedback) window.Telegram.WebApp.HapticFeedback.notificationOccurred('success');
     } catch (err) {
-      alert('Хато юз берди. Қайта уриниб кўринг.');
+      alert('Қате жуз берди. Қайтадан уринып коринг.');
       console.error(err);
     } finally { setBookingLoading(false); }
   };
@@ -112,8 +112,8 @@ function App() {
   if (loading || splash) return (
     <div className="loading-screen">
       <div className="loading-card">
-        <div className="loading-logo">🚕 Taksi <strong>95</strong></div>
-        <div className="loading-subtitle">Jonelister juklenbekte…</div>
+        <div className="loading-logo">🚕 Такси <strong>95</strong></div>
+        <div className="loading-subtitle">Жөнелислер жукленбекте…</div>
         <div className="loading-dots"><span></span><span></span><span></span></div>
       </div>
     </div>
@@ -122,7 +122,7 @@ function App() {
   if (error) return (
     <div className="app-container">
       <div className="error-container"><div className="error-title">Error</div><div className="error-message">{error}</div></div>
-      <button className="show-button" onClick={loadRoutes}>Qaytadan</button>
+      <button className="show-button" onClick={loadRoutes}>Қайтадан</button>
     </div>
   );
 
@@ -132,8 +132,8 @@ function App() {
         <>
           <header className="route-header">
             <h1 className="brand-title">
-              <span className="title-main">Taksi <strong>95</strong></span>
-              <span className="title-sub">Jonelisti tañlañ</span>
+              <span className="title-main">Такси <strong>95</strong></span>
+              <span className="title-sub">Жөнелисты таңлаң</span>
             </h1>
           </header>
           <RouteSelector routes={routes} onSearch={(routeId, fromCity, toCity) => {
@@ -166,8 +166,8 @@ function App() {
 
       {screen !== 'booking' && screen !== 'success' && (
         <div className="bottom-nav">
-          <button className={screen === 'routes' ? 'active' : ''} onClick={() => setScreen('routes')}>🧭 Jonelisler</button>
-          <button className={screen === 'delivery' ? 'active' : ''} onClick={() => setScreen('delivery')}>📦 Juk mashinlari</button>
+          <button className={screen === 'routes' ? 'active' : ''} onClick={() => setScreen('routes')}>🧭 Жөнелислер</button>
+          <button className={screen === 'delivery' ? 'active' : ''} onClick={() => setScreen('delivery')}>📦 Жук машинлары</button>
         </div>
       )}
     </div>
