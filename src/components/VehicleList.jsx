@@ -20,7 +20,7 @@ const VehicleList = ({
     <div className="loading-screen">
       <div className="loading-card">
         <div className="loading-logo">🚕</div>
-        <div className="loading-subtitle">Juklenbekte...</div>
+        <div className="loading-subtitle">Жукленбекте...</div>
         <div className="loading-dots">
           <span></span><span></span><span></span>
         </div>
@@ -44,12 +44,12 @@ const VehicleList = ({
     <div className="vehicle-list">
       {vehicles.length === 0 && (
   <div className="empty-state">
-    <div className="empty-state-icon">🚗</div>
-    <div className="empty-state-title">Xazirshe taksiler joq</div>
+    <div className="empty-state-icon">🚚</div>
+    <div className="empty-state-title">Хазирше жук машинлар жоқ</div>
     <div className="empty-state-text">
       {fromCity && toCity 
-        ? `${fromCity} → ${toCity} bağıtı boyınsha taksi tabılmadı`
-        : 'Jonelisti tañlañ'
+        ? `${fromCity} → ${toCity} жөнелисы бойинша машин табылмады`
+        : 'Жөнелисты таңлаң'
       }
     </div>
   </div>
@@ -58,7 +58,7 @@ const VehicleList = ({
       {vehicles.length > 0 && (
   <>
     <h2 className="vehicle-list-title">
-      Taksistke qoñirow etiñ ({vehicles.length})
+      Таксистке қонирау етиң ({vehicles.length})
     </h2>
     <div className="vehicle-grid">
       {vehicles.map(vehicle => (
