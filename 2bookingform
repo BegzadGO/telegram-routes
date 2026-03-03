@@ -1,0 +1,208 @@
+import { useState } from 'react';
+
+const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
+  const [bookingType, setBookingType] = useState('taxi');
+  const [passengers, setPassengers] = useState(1);
+  const [phone, setPhone] = useState('');
+  const [phoneConfirmed, setPhoneConfirmed] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleRequestContact = () => {
+    const tg = window.Telegram?.WebApp;
+    if (!tg) return;
+
+    setContactLoading(true);
+    setError('');
+
+    tg.requestContact((success, contact) => {
+      setContactLoading(false);
+      if (success && contact?.contact?.phone_number) {
+        setPhone(contact.contact.phone_number);
+        setPhoneConfirmed(true);
+      } else {
+        setError('Номер берилмеди. Қайта уриниб кўринг.');
+      }
+    });
+  };
+
+  const handleSubmit = () => {
+    if (!phone) {
+      setError('Аввал телефон рақамини тасдиқланг');
+      return;
+    }
+    onSubmit(phone, bookingType, bookingType === 'taxi' ? passengers : null);
+  };
+
+  return (
+    <div className="booking-screen">
+      <div className="booking-card">
+
+        <div className="booking-route-label">
+          📍 {fromCity} → {toCity}
+        </div>
+
+        <h2 className="booking-title">Заявка қолдириш</h2>
+        <p className="booking-subtitle">
+          Телефон рақамингизни Telegram орқали тасдиқланг
+        </p>
+
+        {/* Тип заявки */}
+        <div className="booking-type-toggle">
+          <button
+            className={`type-btn ${bookingType === 'taxi' ? 'active' : ''}`}
+            onClick={() => setBookingType('taxi')}
+            type="button"
+          >
+            🚕 Taksi
+          </button>
+          <button
+            className={`type-btn ${bookingType === 'cargo' ? 'active' : ''}`}
+            onClick={() => setBookingType('cargo')}
+            type="button"
+          >
+            📦 Pochta / Juk
+          </button>
+        </div>
+
+        {/* Пассажиры */}
+        {bookingType === 'taxi' && (
+          <div className="booking-field">
+            <label className="booking-label">Yo'lovchilar soni</label>
+            <div className="passengers-selector">
+              <button
+                className="passengers-btn"
+                onClick={() => setPassengers(p => Math.max(1, p - 1))}
+                type="button"
+                disabled={passengers <= 1}
+              >−</button>
+              <span className="passengers-count">{passengers}</span>
+              <button
+                className="passengers-btn"
+                onClick={() => setPassengers(p => Math.min(4, p + 1))}
+                type="button"
+                disabled={passengers >= 4}
+              >+</button>
+            </div>
+          </div>
+        )}
+
+        {/* Номер телефона */}
+        <div className="booking-field">
+          <label className="booking-label">Телефон рақами</label>
+
+          {phoneConfirmed ? (
+            // Номер подтверждён — показываем его с галочкой
+            <div className="phone-confirmed">
+              <span className="phone-confirmed-icon">✅</span>
+              <span className="phone-confirmed-number">{phone}</span>
+              <button
+                className="phone-change-btn"
+                onClick={() => { setPhone(''); setPhoneConfirmed(false); }}
+                type="button"
+              >
+                Almashtirish
+              </button>
+            </div>
+          ) : (
+            // Кнопка запроса номера
+            <button
+              className="contact-request-btn"
+              onClick={handleRequestContact}
+              disabled={contactLoading}
+              type="button"
+            >
+              {contactLoading ? (
+                <span className="btn-loading">
+                  <span></span><span></span><span></span>
+                </span>
+              ) : (
+                '📱 Telegram orqali tasdiqlash'
+              )}
+            </button>
+          )}
+
+          {error && <div className="booking-error">{error}</div>}
+        </div>
+
+        <button
+          className="booking-submit"
+          onClick={handleSubmit}
+          disabled={loading || !phoneConfirmed}
+        >
+          {loading ? (
+            <span className="btn-loading">
+              <span></span><span></span><span></span>
+            </span>
+          ) : (
+            '✅ Заявка юбориш'
+          )}
+        </button>
+
+        <button className="booking-cancel" onClick={onBack}>
+          ← Орқага
+        </button>
+
+      </div>
+    </div>
+  );
+};
+
+export default BookingForm;
+
+styles.css
+/* Phone confirmation */
+.contact-request-btn {
+  width: 100%;
+  padding: 14px;
+  background: #111827;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.contact-request-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-request-btn:active {
+  opacity: 0.85;
+}
+
+.phone-confirmed {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: #f0fdf4;
+  border: 2px solid #22c55e;
+  border-radius: 12px;
+}
+
+.phone-confirmed-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.phone-confirmed-number {
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  flex: 1;
+}
+
+.phone-change-btn {
+  background: none;
+  border: none;
+  font-size: 13px;
+  color: #6b7280;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+  flex-shrink: 0;
+}
