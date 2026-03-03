@@ -793,20 +793,27 @@ body {
 
 .type-btn {
   flex: 1;
-  padding: 10px;
-  border: 2px solid var(--tg-theme-hint-color, #ccc);
-  border-radius: 10px;
-  background: transparent;
-  color: var(--tg-theme-text-color, #000);
+  padding: 11px 8px;
+  border: 2px solid #e6e8ee;
+  border-radius: 12px;
+  background: #f9f9f9;
+  color: #6b7280;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .type-btn.active {
-  border-color: var(--tg-theme-button-color, #3390ec);
-  background: var(--tg-theme-button-color, #3390ec);
-  color: var(--tg-theme-button-text-color, #fff);
+  border-color: #f59e0b;
+  background: linear-gradient(180deg, #f59e0b, #e07a14);
+  color: #fff;
+  box-shadow: 0 4px 0 #c66a10;
+}
+
+.type-btn.active:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #c66a10;
 }
 
 /* Passengers selector */
@@ -821,15 +828,22 @@ body {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  border: 2px solid var(--tg-theme-button-color, #3390ec);
-  background: transparent;
-  color: var(--tg-theme-button-color, #3390ec);
+  border: 2px solid #f59e0b;
+  background: #fff4d6;
+  color: #e07a14;
   font-size: 22px;
+  font-weight: 700;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  transition: all 0.15s;
+}
+
+.passengers-btn:active {
+  background: #f59e0b;
+  color: #fff;
 }
 
 .passengers-btn:disabled {
@@ -838,9 +852,9 @@ body {
 }
 
 .passengers-count {
-  font-size: 26px;
-  font-weight: bold;
-  min-width: 28px;
+  font-size: 28px;
+  font-weight: 800;
+  min-width: 32px;
   text-align: center;
-  color: var(--tg-theme-text-color, #000);
+  color: #0f172a;
 }
