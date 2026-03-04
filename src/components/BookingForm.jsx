@@ -30,7 +30,7 @@ const BookingForm = ({ fromCity, toCity, onSubmit, onBack, loading }) => {
 
         <h2 className="booking-title">Заявка қалдирыу</h2>
         <p className="booking-subtitle">
-         Районга Такси керекпе? Телефон номериңизды жазын, биз сиз бенен 5 минут ишинде байланисамыз
+         <strong>Районга Такси керекпе?</strong> Телефон номериңизды жазын, биз сиз бенен 5 минут ишинде байланисамыз
         </p>
 
         {/* Тип заявки */}
