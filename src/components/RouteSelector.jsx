@@ -78,7 +78,7 @@ if (route) {
       onClick={handleSearch}
       disabled={!canSearch}
     >
-      {loading ? 'Жукленбекте...' : '🚕 Заявка'}
+      {loading ? 'Жукленбекте...' : '🚕 Такси'}
     </button>
   </div>
 );
