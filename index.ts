@@ -343,7 +343,7 @@ async function sendPrivateMessage(chatId: number) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: chatId,
-      text: `Assalawma Aleykum\nBotimizğa xosh kelipsiz 😊\nSiz botimizda Rayonlarğa taksilerdi ham Nokis qalasindaği juk mashinlarin taba alasiz\nSTARTti basiñ ⏬`,
+      text: `Ассалаума Алейкум\nБотимизға хош келипсыз 😊\nСиз ботимизда Қалаларға, Районларға таксилерды хам Нөкис қаласиндағы жук машинларын таба аласыз\nSTARTти басың ⏬`,
       reply_markup: {
         inline_keyboard: [[{ text: "🚕 START", web_app: { url: MINI_APP_URL } }]],
       },
