@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Такси 95 — Админ панель</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --bg:        #0b1120;
+      --surface:   #111d2e;
+      --surface-2: #172236;
+      --surface-3: #1e2d42;
+      --accent:    #4f8ef7;
+      --accent-dk: #2d6be4;
+      --danger:    #ef4444;
+      --success:   #34d399;
+      --text:      #e2eaf8;
+      --text-2:    #a0b4cc;
+      --muted:     #5c7a96;
+      --border:    rgba(255,255,255,0.07);
+      --radius:    12px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- LOGIN ---- */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 380px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.5);
+    }
+
+    .login-title {
+      font-size: 26px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .login-title strong { color: var(--accent); }
+
+    .login-sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    /* ---- LAYOUT ---- */
+    #app {
+      display: none;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+    }
+
+    .app-header h1 {
+      font-size: 24px;
+      font-weight: 800;
+    }
+
+    .app-header h1 strong { color: var(--accent); }
+
+    /* ---- SHARED ---- */
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface-2);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+
+    input:focus, select:focus {
+      border-color: rgba(79,142,247,0.4);
+      background: var(--surface-3);
+    }
+
+    input::placeholder { color: var(--muted); }
+
+    .btn {
+      padding: 12px 20px;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(79,142,247,0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) { background: #5c97f8; }
+
+    .btn-danger {
+      background: rgba(239,68,68,0.12);
+      color: var(--danger);
+      border: 1px solid rgba(239,68,68,0.25);
+    }
+
+    .btn-danger:hover { background: rgba(239,68,68,0.2); }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover { color: var(--text-2); border-color: rgba(255,255,255,0.15); }
+
+    .btn-sm {
+      padding: 7px 14px;
+      font-size: 13px;
+    }
+
+    /* ---- SECTIONS ---- */
+    .section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ---- ADD ROUTE FORM ---- */
+    .add-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr 140px;
+      gap: 12px;
+      align-items: end;
+    }
+
+    .add-form .field { margin-bottom: 0; }
+    .add-form input  { margin-bottom: 0; }
+
+    /* ---- ROUTES TABLE ---- */
+    .routes-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .routes-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 0 12px 12px;
+    }
+
+    .routes-table td {
+      padding: 10px 12px;
+      font-size: 14px;
+      border-top: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    .route-cell-from { font-weight: 600; color: var(--text); }
+    .route-cell-to   { color: var(--text-2); }
+
+    .price-input-inline {
+      width: 140px;
+      padding: 8px 10px;
+      font-size: 14px;
+      border-radius: 8px;
+      margin-bottom: 0;
+    }
+
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .badge-no-price {
+      font-size: 12px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* ---- TOAST ---- */
+    #toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 12px 24px;
+      border-radius: 40px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+      opacity: 0;
+      z-index: 999;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
+
+    .err { color: #f87171; font-size: 13px; margin-top: -8px; margin-bottom: 12px; }
+
+    #logout-btn { font-size: 13px; }
+
+    .loading-rows td {
+      color: var(--muted);
+      text-align: center;
+      padding: 24px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== LOGIN ========== -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-title">🚕 Такси <strong>95</strong></div>
+    <div class="login-sub">Админ панель</div>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" id="email" placeholder="admin@example.com" />
+    </div>
+    <div class="field">
+      <label>Пароль</label>
+      <input type="password" id="password" placeholder="••••••••" />
+    </div>
+    <div class="err" id="login-err"></div>
+    <button class="btn btn-primary" style="width:100%" onclick="login()">Кириу</button>
+  </div>
+</div>
+
+<!-- ========== APP ========== -->
+<div id="app">
+  <div class="app-header">
+    <h1>🚕 Такси <strong>95</strong> — Маршрутлар</h1>
+    <button class="btn btn-ghost btn-sm" id="logout-btn" onclick="logout()">Шығыу</button>
+  </div>
+
+  <!-- Add route -->
+  <div class="section">
+    <div class="section-title">➕ Жаңа маршрут қосыу</div>
+    <div class="add-form">
+      <div class="field">
+        <label>Қаерден</label>
+        <input type="text" id="new-from" placeholder="Нөкис" />
+      </div>
+      <div class="field">
+        <label>Қаерге</label>
+        <input type="text" id="new-to" placeholder="Бердақ" />
+      </div>
+      <div class="field">
+        <label>Баҳа (сўм)</label>
+        <input type="number" id="new-price" placeholder="50000" min="0" step="1000" />
+      </div>
+    </div>
+    <div class="err" id="add-err"></div>
+    <button class="btn btn-primary" onclick="addRoute()">➕ Қосыу</button>
+  </div>
+
+  <!-- Routes list -->
+  <div class="section">
+    <div class="section-title">📍 Барлық маршрутлар</div>
+    <table class="routes-table">
+      <thead>
+        <tr>
+          <th>Қаерден</th>
+          <th>Қаерге</th>
+          <th>Баҳа / киши</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="routes-body">
+        <tr class="loading-rows"><td colspan="4">Жукленбекте...</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ============================================================
+// CONFIG — Supabase URL ҳәм Anon Key ны толтырыу керек
+// ============================================================
+const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+// ============================================================
+
+const { createClient } = supabase;
+const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ---- AUTH ----
+async function login() {
+  const email    = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value;
+  document.getElementById('login-err').textContent = '';
+
+  const { error } = await sb.auth.signInWithPassword({ email, password });
+  if (error) {
+    document.getElementById('login-err').textContent = 'Пароль яки email қате.';
+    return;
+  }
+  showApp();
+}
+
+async function logout() {
+  await sb.auth.signOut();
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+}
+
+function showApp() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadRoutes();
+}
+
+// Авто-вход если сессия есть
+sb.auth.getSession().then(({ data }) => {
+  if (data.session) showApp();
+});
+
+// ---- ROUTES ----
+let routes = [];
+
+async function loadRoutes() {
+  const tbody = document.getElementById('routes-body');
+  tbody.innerHTML = '<tr class="loading-rows"><td colspan="4">Жукленбекте...</td></tr>';
+
+  const { data, error } = await sb
+    .from('routes')
+    .select('id, from_city, to_city, price')
+    .order('from_city');
+
+  if (error) {
+    tbody.innerHTML = `<tr class="loading-rows"><td colspan="4">Қате: ${error.message}</td></tr>`;
+    return;
+  }
+
+  routes = data || [];
+  renderRoutes();
+}
+
+function renderRoutes() {
+  const tbody = document.getElementById('routes-body');
+  if (routes.length === 0) {
+    tbody.innerHTML = '<tr class="loading-rows"><td colspan="4">Маршрутлар жоқ</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = routes.map(r => `
+    <tr data-id="${r.id}">
+      <td class="route-cell-from">${r.from_city}</td>
+      <td class="route-cell-to">${r.to_city}</td>
+      <td>
+        <input
+          class="price-input-inline"
+          type="number"
+          value="${r.price || ''}"
+          placeholder="баҳа жоқ"
+          min="0"
+          step="1000"
+          onkeydown="if(event.key==='Enter') savePrice('${r.id}', this.value)"
+          id="price-${r.id}"
+        />
+      </td>
+      <td class="actions-cell">
+        <button class="btn btn-primary btn-sm" onclick="savePrice('${r.id}', document.getElementById('price-${r.id}').value)">
+          Сақлау
+        </button>
+        <button class="btn btn-danger btn-sm" onclick="deleteRoute('${r.id}', '${r.from_city}', '${r.to_city}')">
+          Өшириу
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+async function savePrice(id, rawValue) {
+  const price = parseInt(rawValue) || 0;
+  const { error } = await sb
+    .from('routes')
+    .update({ price })
+    .eq('id', id);
+
+  if (error) { toast('Қате: ' + error.message); return; }
+
+  const r = routes.find(x => x.id === id);
+  if (r) r.price = price;
+  toast(`✅ ${r?.from_city} → ${r?.to_city}: ${price.toLocaleString('ru-RU')} сўм сақланды`);
+}
+
+async function deleteRoute(id, from, to) {
+  if (!confirm(`"${from} → ${to}" маршрутын өшириу керекпе?`)) return;
+
+  const { error } = await sb.from('routes').delete().eq('id', id);
+  if (error) { toast('Қате: ' + error.message); return; }
+
+  routes = routes.filter(r => r.id !== id);
+  renderRoutes();
+  toast(`🗑 ${from} → ${to} өширилди`);
+}
+
+async function addRoute() {
+  const from  = document.getElementById('new-from').value.trim();
+  const to    = document.getElementById('new-to').value.trim();
+  const price = parseInt(document.getElementById('new-price').value) || 0;
+  const err   = document.getElementById('add-err');
+
+  err.textContent = '';
+  if (!from || !to) { err.textContent = 'Қаерден ҳәм Қаерге толтырыу керек'; return; }
+  if (from === to)  { err.textContent = 'Бастапқы ҳәм соңғы нүкте бирдей болмауы керек'; return; }
+
+  const { data, error } = await sb
+    .from('routes')
+    .insert([{ from_city: from, to_city: to, price }])
+    .select()
+    .single();
+
+  if (error) { err.textContent = 'Қате: ' + error.message; return; }
+
+  routes.push(data);
+  renderRoutes();
+
+  document.getElementById('new-from').value  = '';
+  document.getElementById('new-to').value    = '';
+  document.getElementById('new-price').value = '';
+
+  toast(`✅ ${from} → ${to} маршруты қосылды`);
+}
+
+// ---- TOAST ----
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// Enter on login
+document.addEventListener('keydown', e => {
+  if (e.key === 'Enter' && document.getElementById('login-screen').style.display !== 'none') {
+    login();
+  }
+});
+</script>
+</body>
+</html>
