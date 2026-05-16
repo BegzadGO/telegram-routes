@@ -851,3 +851,70 @@ body {
   background: var(--accent-dark);
   transform: scale(0.98);
 }
+
+/* ---- Цена на маршрут ---- */
+.route-price-badge {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-soft);
+  border: 1px solid var(--border-accent);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+  margin: 4px 0 14px;
+}
+
+.route-price-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.route-price-value {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--accent);
+}
+
+/* ---- Итоговая цена в форме ---- */
+.price-summary {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.price-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: var(--text-2);
+  padding: 5px 0;
+}
+
+.price-row span:last-child { font-weight: 600; color: var(--text); }
+
+.price-total {
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+  padding-top: 10px;
+}
+
+.price-total span:first-child { font-weight: 700; color: var(--text); }
+.price-total span:last-child  { font-size: 16px; font-weight: 800; color: var(--accent); }
+
+/* ---- Рабочие часы баннер ---- */
+.working-hours-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  margin: 16px 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #f87171;
+}
