@@ -85,11 +85,11 @@ serve(async (req) => {
           tgPost("sendMessage", {
             chat_id: booking.telegram_user_id,
             text:
-              `✅ Сиздиң заявкаңыз қабыл алынды!\n\n` +
+              `✅ Сиздиң заявкаңыз қабыл кылынды!\n\n` +
               `📍 Маршрут: ${booking.from_city} → ${booking.to_city}\n` +
               `🚕 Водитель: ${driverUsername}\n` +
               `📞 Телефон: ${booking.phone}\n\n` +
-              `Жолыңыз болсын! Жеткен соң поездканы баҳалаңыз 👇`,
+              `Жолыңыз болсын! Жеткен соң бахалауды умитпаңиз 👇`,
             reply_markup: {
               inline_keyboard: [[
                 { text: "⭐",      callback_data: `rate|${bookingId}|1` },
@@ -127,7 +127,7 @@ serve(async (req) => {
         await Promise.allSettled([
           tgPost("answerCallbackQuery", {
             callback_query_id: query.id,
-            text: `${stars} Рахмет! Баҳаңыз қабыл алынды.`,
+            text: `${stars} Рахмет! Баҳаңыз қабыл қылынды.`,
             show_alert: false,
           }),
           tgPost("editMessageReplyMarkup", {
@@ -199,7 +199,7 @@ serve(async (req) => {
     if (!bookings || bookings.length === 0) {
       await tgPost("sendMessage", {
         chat_id: chatId,
-        text: "📋 Сизде ҳәли заявка жоқ.\n\nМини-апп арқылы такси яки жук машинасы заказ беринг 👇",
+        text: "📋 Сизде еле заявка жоқ.\n\nМини-апп арқылы такси яки жук машинасы заказ беринг 👇",
         reply_markup: {
           inline_keyboard: [[{ text: "🚕 Заявка беретуғын", web_app: { url: MINI_APP_URL } }]],
         },
