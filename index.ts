@@ -57,7 +57,7 @@ serve(async (req) => {
       if (error || !booking) {
         await tgPost("answerCallbackQuery", {
           callback_query_id: query.id,
-          text: "❌ Buyurtma allaqachon boshqa haydovchi tomonidan olindi!",
+          text: "❌ Буйртпани басқа таксист алип болды!",
           show_alert: true,
         });
         return new Response("ok");
@@ -76,12 +76,12 @@ serve(async (req) => {
         tgPost("editMessageText", {
           chat_id: chat.id,
           message_id: message.message_id,
-          text: `✅ Buyurtma olindi!\n\n📍 Marshrut: ${booking.from_city} → ${booking.to_city}\n🚕 Haydovchi: ${driverUsername}`,
+          text: `✅ Буйртпа алынды!\n\n📍 Marshrut: ${booking.from_city} → ${booking.to_city}\n🚕 Haydovchi: ${driverUsername}`,
         }),
         // Водительге callback подтверждение
         tgPost("answerCallbackQuery", {
           callback_query_id: query.id,
-          text: `Buyurtma qabul qilindi! 📞 ${booking.phone}`,
+          text: `Буйртпа қабыл кылынды! 📞 ${booking.phone}`,
           show_alert: true,
         }),
         // ---- Водительге жеке хабар — поездка деталлары ----
@@ -89,7 +89,7 @@ serve(async (req) => {
           chat_id: driverChatId,
           parse_mode: "Markdown",
           text:
-            `✅ *Сиз заявканы алдыңыз!*\n\n` +
+            `✅ *Сиз буйртпани алдыңыз!*\n\n` +
             `📍 *Маршрут:* ${booking.from_city} → ${booking.to_city}\n` +
             `🚗 *Тур:* ${typeLabel}\n` +
             `📞 *Телефон:* \`${booking.phone}\`\n\n` +
@@ -103,11 +103,11 @@ serve(async (req) => {
           tgPost("sendMessage", {
             chat_id: booking.telegram_user_id,
             text:
-              `✅ Сиздиң заявкаңыз қабыл алынды!\n\n` +
+              `✅ Сиздиң буйртпаңиз қабыл кылынды!\n\n` +
               `📍 Маршрут: ${booking.from_city} → ${booking.to_city}\n` +
               `🚕 Водитель: ${driverUsername}\n` +
               `📞 Телефон: ${booking.phone}\n\n` +
-              `Жолыңыз болсын! Жеткен соң поездканы баҳалаңыз 👇`,
+              `Жолыңыз болсын! Жеткен соң баҳалауды умитпаңыз 👇`,
             reply_markup: {
               inline_keyboard: [[
                 { text: "1 ⭐", callback_data: `rate|${bookingId}|1` },
@@ -145,7 +145,7 @@ serve(async (req) => {
         await Promise.allSettled([
           tgPost("answerCallbackQuery", {
             callback_query_id: query.id,
-            text: `${stars} Рахмет! Баҳаңыз қабыл алынды.`,
+            text: `${stars} Рахмет! Баҳаңыз қабыл кылынды.`,
             show_alert: false,
           }),
           tgPost("editMessageReplyMarkup", {
@@ -157,7 +157,7 @@ serve(async (req) => {
       } else {
         await tgPost("answerCallbackQuery", {
           callback_query_id: query.id,
-          text: "Сіз бул поездканы баҳаладыңыз.",
+          text: "Сіз буни баҳаладыңыз.",
           show_alert: false,
         });
       }
@@ -217,9 +217,9 @@ serve(async (req) => {
     if (!bookings || bookings.length === 0) {
       await tgPost("sendMessage", {
         chat_id: chatId,
-        text: "📋 Сизде ҳәли заявка жоқ.\n\nМини-апп арқылы такси яки жук машинасы заказ беринг 👇",
+        text: "📋 Сизде еле буйртпа жоқ.\n\nМини-апп арқалы такси яки жук машинасына буйртпа беринг 👇",
         reply_markup: {
-          inline_keyboard: [[{ text: "🚕 Заявка беретуғын", web_app: { url: MINI_APP_URL } }]],
+          inline_keyboard: [[{ text: "🚕 Буйртпа берыу", web_app: { url: MINI_APP_URL } }]],
         },
       });
     } else {
@@ -233,7 +233,7 @@ serve(async (req) => {
 
       await tgPost("sendMessage", {
         chat_id: chatId,
-        text: `📋 Сиздиң заявкаларыңыз:\n\n${lines.join("\n\n")}`,
+        text: `📋 Сиздиң буйртпалариңыз:\n\n${lines.join("\n\n")}`,
       });
     }
     return new Response("ok");
@@ -325,10 +325,10 @@ async function handleBooking(body: Record<string, unknown>) {
 
   // Валидация
   if (!phone || !fromCity || !toCity) {
-    return json({ error: "Maʼlumotlar toʼliq emas" }, 400);
+    return json({ error: "Мағлуматлар толық емес" }, 400);
   }
   if (!["taxi", "cargo"].includes(bookingType)) {
-    return json({ error: "Notoʼgʼri tur" }, 400);
+    return json({ error: "Натыуры тур" }, 400);
   }
 
   // ---- Жумыс ўақыты тексериу (07:00 — 22:00 UTC+5) ----
@@ -353,7 +353,7 @@ async function handleBooking(body: Record<string, unknown>) {
     .limit(1);
 
   if (existing && existing.length > 0) {
-    return json({ error: "Buyurtma allaqachon yuborilgan, kuting" }, 429);
+    return json({ error: "Буйртпа жиберилип болған, кутинг" }, 429);
   }
 
   // Сохраняем
@@ -370,21 +370,21 @@ async function handleBooking(body: Record<string, unknown>) {
 
   if (error || !booking) {
     console.error("DB insert error:", error);
-    return json({ error: "Saqlashda xatolik" }, 500);
+    return json({ error: "Сақлауда қателик" }, 500);
   }
 
   const bookingId  = booking.id;
   const userInfo   = telegramUsername ? `@${telegramUsername}` : telegramUserId ? `ID: ${telegramUserId}` : "Номаълум";
   const typeLabel  = bookingType === "cargo"
-    ? "📦 Pochta / Juk"
+    ? "📦 Жук / Почта"
     : `🚕 Taksi (${passengers} yoʼlovchi)`;
 
   const ownerMsg =
-    `🔔 Янги заявка!\n\n` +
-    `📍 Маршрут: ${fromCity} → ${toCity}\n` +
+    `🔔 Таза буйртпа!\n\n` +
+    `📍 Жөнелис: ${fromCity} → ${toCity}\n` +
     `🚗 Тур: ${typeLabel}\n` +
     `📞 Телефон: ${phone}\n` +
-    `👤 Фойдаланувчи: ${userInfo}\n` +
+    `👤 Пайдаланушы: ${userInfo}\n` +
     `🕐 Вақт: ${new Date().toLocaleString("ru-RU")}`;
 
   const notifications: Promise<unknown>[] = [
@@ -395,9 +395,9 @@ async function handleBooking(body: Record<string, unknown>) {
     notifications.push(
       tgPost("sendMessage", {
         chat_id: DRIVER_GROUP_ID,
-        text: `🔔 Yangi buyurtma!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n🚗 Tur: ${typeLabel}\n⏳ Status: kutilmoqda...`,
+        text: `🔔 Заказ!\n\n📍 Marshrut: ${fromCity} → ${toCity}\n🚗 Tur: ${typeLabel}\n⏳ Status: kutilmoqda...`,
         reply_markup: {
-          inline_keyboard: [[{ text: "✅ Olish", callback_data: `take|${bookingId}` }]],
+          inline_keyboard: [[{ text: "✅ Алыу", callback_data: `take|${bookingId}` }]],
         },
       })
     );
@@ -454,7 +454,7 @@ async function sendPrivateMessage(chatId: number) {
     reply_markup: {
       inline_keyboard: [
         [{ text: "🚕 START", web_app: { url: MINI_APP_URL } }],
-        [{ text: "📋 Заявкаларым", callback_data: "history" }],
+        [{ text: "📋 Буйрпаларым", callback_data: "history" }],
       ],
     },
   });
